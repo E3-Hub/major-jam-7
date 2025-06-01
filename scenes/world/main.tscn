@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://conoeay4a3lm8"]
+
+[ext_resource type="PackedScene" uid="uid://btwd2fqncuir3" path="res://scenes/player/player.tscn" id="1_0wkb6"]
+[ext_resource type="Script" uid="uid://mcvp0d1gqc3j" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
+[ext_resource type="PackedScene" uid="uid://bfmytxo3jyj5e" path="res://scenes/ui/ui_manager.tscn" id="3_f8fyy"]
+[ext_resource type="Script" uid="uid://dhhniimbgha7d" path="res://scripts/systems/enemy_spawner.gd" id="4_wbupf"]
+[ext_resource type="PackedScene" uid="uid://78kvgyiyo5ih" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_0wkb6")]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("2_mli2r")
+metadata/_custom_type_script = "uid://mcvp0d1gqc3j"
+
+[node name="UIManager" parent="GameManager" instance=ExtResource("3_f8fyy")]
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("4_wbupf")
+enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr")])
+metadata/_custom_type_script = "uid://dhhniimbgha7d"
+
+[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
