@@ -17,6 +17,10 @@ script = ExtResource("2_mli2r")
 metadata/_custom_type_script = "uid://mcvp0d1gqc3j"
 
 [node name="UIManager" parent="GameManager" instance=ExtResource("3_f8fyy")]
+offset_left = -573.0
+offset_top = -322.0
+offset_right = -573.0
+offset_bottom = -322.0
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("4_wbupf")

@@ -14,8 +14,8 @@ signal enemy_died(enemy: BaseEnemy)
 
 func _ready():
 	# Set up collision layers
-	collision_layer = 2  # Enemy layer
-	collision_mask = 1   # Player layer
+	collision_layer = 2 # Enemy layer
+	collision_mask = 1 # Player layer
 	
 	# Connect health system
 	health_system.died.connect(_on_died)
@@ -51,7 +51,7 @@ func _on_died():
 
 func drop_experience():
 	if exp_orb_scene:
-		var exp_orb = exp_orb_scene.instantiate()
+		var exp_orb: ExpOrb = exp_orb_scene.instantiate()
 		get_tree().current_scene.add_child(exp_orb)
 		exp_orb.global_position = global_position
-		exp_orb.setup(exp_value) 
+		exp_orb.setup(exp_value)

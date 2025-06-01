@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Area2D
 class_name Bullet
 
 @export var speed: float = 500.0
@@ -7,6 +7,7 @@ class_name Bullet
 @export var is_player_bullet: bool = true
 
 var direction: Vector2
+var velocity: Vector2
 
 func _ready():
 	# Set up collision layers
@@ -17,8 +18,8 @@ func _ready():
 		collision_layer = 8 # Enemy bullets layer
 		collision_mask = 1 # Player layer
 	
-	# Set velocity
-	linear_velocity = direction * speed
+	# Connect collision signal
+	body_entered.connect(_on_body_entered)
 	
 	# Auto-destroy after lifetime
 	var timer = Timer.new()
@@ -28,9 +29,14 @@ func _ready():
 	add_child(timer)
 	timer.start()
 
+func _physics_process(delta):
+	# Move the bullet
+	global_position += velocity * delta
+
 func setup(start_position: Vector2, target_direction: Vector2, bullet_damage: int = 10, bullet_speed: float = 500.0, player_bullet: bool = true):
 	global_position = start_position
 	direction = target_direction.normalized()
+	velocity = direction * bullet_speed
 	damage = bullet_damage
 	speed = bullet_speed
 	is_player_bullet = player_bullet
@@ -41,4 +47,5 @@ func _on_body_entered(body):
 	queue_free()
 
 func _on_lifetime_expired():
+	print("destroy bullet")
 	queue_free()
