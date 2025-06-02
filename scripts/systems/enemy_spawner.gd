@@ -28,7 +28,7 @@ func _on_spawn_timer_timeout():
 	
 	# Adjust spawn rate based on level
 	var level_multiplier = 1.0 - (current_level - 1) * 0.1
-	level_multiplier = max(level_multiplier, 0.3)  # Don't go below 30% of base interval
+	level_multiplier = max(level_multiplier, 0.3) # Don't go below 30% of base interval
 	spawn_timer.wait_time = base_spawn_interval * level_multiplier
 
 func spawn_enemy():
@@ -66,13 +66,13 @@ func get_spawn_position() -> Vector2:
 	var spawn_pos = Vector2.ZERO
 	
 	match edge:
-		0:  # Top
+		0: # Top
 			spawn_pos = Vector2(randf_range(0, screen_size.x), -spawn_distance)
-		1:  # Right
+		1: # Right
 			spawn_pos = Vector2(screen_size.x + spawn_distance, randf_range(0, screen_size.y))
-		2:  # Bottom
+		2: # Bottom
 			spawn_pos = Vector2(randf_range(0, screen_size.x), screen_size.y + spawn_distance)
-		3:  # Left
+		3: # Left
 			spawn_pos = Vector2(-spawn_distance, randf_range(0, screen_size.y))
 	
 	# Convert to world position relative to camera
@@ -99,4 +99,4 @@ func _on_player_level_up(new_level: int):
 
 func _on_enemy_died(enemy: BaseEnemy):
 	# Handle enemy death if needed
-	pass 
+	pass

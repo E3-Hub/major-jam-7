@@ -15,6 +15,10 @@ run/main_scene="uid://conoeay4a3lm8"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[debug]
+
+gdscript/warnings/unused_parameter=0
+
 [input]
 
 move_left={

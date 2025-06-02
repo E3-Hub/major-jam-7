@@ -32,7 +32,7 @@ func update_level(level: int):
 
 func update_time(time: float):
 	if time_label:
-		var minutes = int(time) / 60
+		var minutes = int(time / 60)
 		var seconds = int(time) % 60
 		time_label.text = "Time: %02d:%02d" % [minutes, seconds]
 
@@ -41,9 +41,9 @@ func show_game_over(final_time: float):
 		game_over_panel.visible = true
 	
 	if final_time_label:
-		var minutes = int(final_time) / 60
+		var minutes = int(final_time / 60)
 		var seconds = int(final_time) % 60
 		final_time_label.text = "Survived: %02d:%02d" % [minutes, seconds]
 
 func _on_restart_pressed():
-	get_tree().reload_current_scene() 
+	get_tree().reload_current_scene()
