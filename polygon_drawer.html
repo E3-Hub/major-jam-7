@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neon Polygon Generator</title>
+  <style>
+    body { background: #000; color: #fff; font-family: sans-serif; text-align: center; }
+    canvas { background: #000; margin-top: 20px; }
+    input, button { margin: 5px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Neon Polygon Generator</h1>
+  <label>Sides: <input type="number" id="sides" min="3" max="20" value="6"></label>
+  <label>Color: <input type="color" id="color" value="#00ffff"></label>
+  <button onclick="drawPolygon()">Draw</button>
+  <button onclick="downloadImage()">Download PNG</button>
+  <br>
+  <canvas id="canvas" width="500" height="500"></canvas>
+
+  <script>
+    function drawPolygon() {
+      const sides = parseInt(document.getElementById('sides').value);
+      const color = document.getElementById('color').value;
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const radius = 150;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const angleStep = (2 * Math.PI) / sides;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(centerX, centerY);
+
+      // Glow effect
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 20;
+
+      // Draw polygon
+      ctx.beginPath();
+      for (let i = 0; i <= sides; i++) {
+        const angle = i * angleStep - Math.PI / 2;
+        const x = radius * Math.cos(angle);
+        const y = radius * Math.sin(angle);
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.closePath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 5;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function downloadImage() {
+      const canvas = document.getElementById('canvas');
+      const link = document.createElement('a');
+      link.download = 'neon_polygon.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    // Initial draw
+    drawPolygon();
+  </script>
+</body>
+</html>
