@@ -3,8 +3,8 @@ class_name PatchSystem
 
 signal patch_applied(patch_data: Dictionary)
 
-@export var min_patch_interval: float = 5.0
-@export var max_patch_interval: float = 10.0
+@export var min_patch_interval: float = 1000.0
+@export var max_patch_interval: float = 1000.0
 
 @onready var patch_timer: Timer = $PatchTimer
 
