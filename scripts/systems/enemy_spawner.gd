@@ -14,9 +14,7 @@ var enemies_spawned: int = 0
 func _ready():
 	# Find player
 	player = get_tree().get_first_node_in_group("player")
-	
-	if player:
-		player.experience_system.level_up.connect(_on_player_level_up)
+	player.experience_system.level_up.connect(_on_player_level_up)
 	
 	# Setup spawn timer
 	spawn_timer.wait_time = base_spawn_interval

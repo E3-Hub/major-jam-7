@@ -23,6 +23,9 @@ func _ready():
 	# Find player
 	player = get_tree().get_first_node_in_group("player")
 	
+	# Add to enemies group for patch system
+	add_to_group("enemies")
+	
 	# Try to load exp orb scene
 	if ResourceLoader.exists("res://scenes/world/exp_orb.tscn"):
 		exp_orb_scene = load("res://scenes/world/exp_orb.tscn")
@@ -55,3 +58,20 @@ func drop_experience():
 		get_tree().current_scene.add_child(exp_orb)
 		exp_orb.global_position = global_position
 		exp_orb.setup(exp_value)
+
+# Patch system modifier methods
+func apply_health_modifier(multiplier: float):
+	if health_system:
+		var old_max = health_system.max_health
+		var old_current = health_system.current_health
+		var health_percentage = health_system.get_health_percentage()
+		
+		health_system.max_health = int(old_max * multiplier)
+		health_system.current_health = int(health_system.max_health * health_percentage)
+		health_system.health_changed.emit(health_system.current_health, health_system.max_health)
+
+func apply_speed_modifier(multiplier: float):
+	speed *= multiplier
+
+func apply_exp_modifier(multiplier: float):
+	exp_value = int(exp_value * multiplier)
