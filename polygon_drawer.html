@@ -6,27 +6,41 @@
   <style>
     body { background: #000; color: #fff; font-family: sans-serif; text-align: center; }
     canvas { background: #000; margin-top: 20px; }
-    input, button { margin: 5px; padding: 5px; }
+    input, button, label { margin: 5px; padding: 5px; }
   </style>
 </head>
 <body>
   <h1>Neon Polygon Generator</h1>
+
   <label>Sides: <input type="number" id="sides" min="3" max="20" value="6"></label>
   <label>Color: <input type="color" id="color" value="#00ffff"></label>
-  <button onclick="drawPolygon()">Draw</button>
+  <label>Fill: <input type="checkbox" id="fill"></label><br>
+  <label>Canvas Width: <input type="number" id="canvasWidth" value="128"></label>
+  <label>Canvas Height: <input type="number" id="canvasHeight" value="128"></label><br>
+  
+  <button onclick="updateCanvasSize(); drawPolygon()">Draw</button>
   <button onclick="downloadImage()">Download PNG</button>
-  <br>
-  <canvas id="canvas" width="500" height="500"></canvas>
+  
+  <br><canvas id="canvas" width="128" height="128"></canvas>
 
   <script>
+    function updateCanvasSize() {
+      const canvas = document.getElementById('canvas');
+      const width = parseInt(document.getElementById('canvasWidth').value);
+      const height = parseInt(document.getElementById('canvasHeight').value);
+      canvas.width = width;
+      canvas.height = height;
+    }
+
     function drawPolygon() {
       const sides = parseInt(document.getElementById('sides').value);
       const color = document.getElementById('color').value;
+      const fill = document.getElementById('fill').checked;
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
-      const radius = 150;
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
+      const radius = Math.min(canvas.width, canvas.height) * 0.2;
       const angleStep = (2 * Math.PI) / sides;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -35,7 +49,7 @@
 
       // Glow effect
       ctx.shadowColor = color;
-      ctx.shadowBlur = 20;
+      ctx.shadowBlur = 25;
 
       // Draw polygon
       ctx.beginPath();
@@ -50,8 +64,14 @@
         }
       }
       ctx.closePath();
+
+      if (fill) {
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
       ctx.strokeStyle = color;
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 3;
       ctx.stroke();
       ctx.restore();
     }
@@ -64,7 +84,7 @@
       link.click();
     }
 
-    // Initial draw
+    // Draw on initial load
     drawPolygon();
   </script>
 </body>

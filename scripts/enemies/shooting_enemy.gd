@@ -23,6 +23,10 @@ func update_ai(delta):
 	
 	var distance_to_player = global_position.distance_to(player.global_position)
 	
+	# Rotate toward player
+	var direction_to_player = (player.global_position - global_position).normalized()
+	rotation = direction_to_player.angle() + PI / 2
+	
 	# Move towards player if too far, but stop at a certain distance
 	if distance_to_player > stop_distance:
 		move_towards_player(delta)

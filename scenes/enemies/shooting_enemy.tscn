@@ -1,28 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://78kvgyiyo5ih"]
+[gd_scene load_steps=6 format=3 uid="uid://78kvgyiyo5ih"]
 
-[ext_resource type="Script" uid="uid://cli6kjrioa6kv" path="res://scripts/systems/health_system.gd" id="1_5ipbc"]
+[ext_resource type="Script" path="res://scripts/systems/health_system.gd" id="1_5ipbc"]
 [ext_resource type="Script" uid="uid://fn25wmrgbm2v" path="res://scripts/enemies/shooting_enemy.gd" id="1_l333l"]
 [ext_resource type="PackedScene" uid="uid://cgxuk2rbjvolx" path="res://scenes/enemies/enemy_bullet.tscn" id="2_qgynv"]
+[ext_resource type="Texture2D" uid="uid://cii7dqbxbrkds" path="res://assets/enemies/shooting_enemy.png" id="4_lq5po"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oulyw"]
-size = Vector2(24, 24)
+[sub_resource type="CircleShape2D" id="CircleShape2D_lq5po"]
+radius = 17.0
 
 [node name="ShootingEnemy" type="CharacterBody2D"]
 script = ExtResource("1_l333l")
 bullet_scene = ExtResource("2_qgynv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_oulyw")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.82045, 0, 0.0800869, 1)
+shape = SubResource("CircleShape2D_lq5po")
 
 [node name="HealthSystem" type="Node" parent="."]
 script = ExtResource("1_5ipbc")
 metadata/_custom_type_script = "uid://cli6kjrioa6kv"
 
 [node name="ShootTimer" type="Timer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_lq5po")

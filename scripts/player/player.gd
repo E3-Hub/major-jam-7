@@ -29,6 +29,7 @@ func _ready():
 
 func _physics_process(delta):
 	handle_movement()
+	handle_rotation()
 	handle_shooting()
 
 func handle_movement():
@@ -45,6 +46,11 @@ func handle_movement():
 	
 	velocity = input_vector.normalized() * speed
 	move_and_slide()
+
+func handle_rotation():
+	var mouse_pos = get_global_mouse_position()
+	var direction_to_mouse = (mouse_pos - global_position).normalized()
+	rotation = direction_to_mouse.angle() + PI / 2
 
 func handle_shooting():
 	if Input.is_action_pressed("shoot") and can_shoot and bullet_scene:
