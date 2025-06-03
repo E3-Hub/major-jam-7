@@ -6,6 +6,8 @@
 
 https://itch.io/jam/major-jam-7-wild
 
+# add executable file in .vscode
+
 # 2D Top-Down Shooting Game
 
 A scalable 2D top-down survival shooting game built in Godot 4.4.
