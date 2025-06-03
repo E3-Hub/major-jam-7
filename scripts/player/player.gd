@@ -2,6 +2,13 @@ extends CharacterBody2D
 class_name Player
 
 @export var speed: float = 300.0
+@export var dash_speed: float = 900
+@export var is_dashing: bool = false
+@export var dash_duration: float = 0.2  # seconds
+@export var dash_timer: float = 0.0
+@export var dash_cooldown: float = 1.0
+@export var dash_cooldown_timer: float = 0.0
+@export var dash_direction = Vector2.ZERO
 @export var bullet_scene: PackedScene
 @export var base_shoot_cooldown: float = 0.2
 
@@ -28,24 +35,50 @@ func _ready():
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 
 func _physics_process(delta):
+	handle_dash(delta)
 	handle_movement()
 	handle_rotation()
 	handle_shooting()
 
 func handle_movement():
-	var input_vector = Vector2.ZERO
-	
-	if Input.is_action_pressed("move_left"):
-		input_vector.x -= 1
-	if Input.is_action_pressed("move_right"):
-		input_vector.x += 1
-	if Input.is_action_pressed("move_up"):
-		input_vector.y -= 1
-	if Input.is_action_pressed("move_down"):
-		input_vector.y += 1
-	
-	velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
+	var input_vector = get_input_direction()
+	if is_dashing:
+		velocity = dash_direction.normalized() * dash_speed
+	else:
+		velocity = input_vector.normalized() * speed
 	move_and_slide()
+
+func handle_dash(delta):
+	# Cooldown countdown
+	if dash_cooldown_timer > 0:
+		dash_cooldown_timer -= delta
+
+	# Dash duration countdown
+	if is_dashing:
+		dash_timer -= delta
+		if dash_timer <= 0:
+			is_dashing = false
+
+	# Start dash if key pressed and not on cooldown
+	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0 and not is_dashing:
+		is_dashing = true
+		dash_timer = dash_duration
+		dash_cooldown_timer = dash_cooldown
+		# Dash in the current input direction
+		dash_direction = get_input_direction()
+
+func get_input_direction() -> Vector2:
+	var dir = Vector2.ZERO
+	if Input.is_action_pressed("move_left"):
+		dir.x -= 1
+	if Input.is_action_pressed("move_right"):
+		dir.x += 1
+	if Input.is_action_pressed("move_up"):
+		dir.y -= 1
+	if Input.is_action_pressed("move_down"):
+		dir.y += 1
+	return dir
+
 
 func handle_rotation():
 	var mouse_pos = get_global_mouse_position()

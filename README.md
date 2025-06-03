@@ -6,8 +6,15 @@
 
 https://itch.io/jam/major-jam-7-wild
 
-# add executable file in .vscode
-
+# add godot executable path in .vscode
+```
+{
+    "files.exclude": {
+        "**/*.uid": true
+    },
+    "godotTools.editorPath.godot4": "godot executable path"
+} 
+```
 # 2D Top-Down Shooting Game
 
 A scalable 2D top-down survival shooting game built in Godot 4.4.
