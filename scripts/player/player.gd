@@ -3,7 +3,7 @@ class_name Player
 
 @export var speed: float = 300.0
 @export var bullet_scene: PackedScene
-@export var shoot_cooldown: float = 0.2
+@export var base_shoot_cooldown: float = 0.2
 
 @onready var health_system: HealthSystem = $HealthSystem
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
@@ -23,7 +23,7 @@ func _ready():
 	experience_system.level_up.connect(_on_level_up)
 	
 	# Setup shoot timer
-	shoot_timer.wait_time = shoot_cooldown
+	shoot_timer.wait_time = base_shoot_cooldown
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 
@@ -44,7 +44,7 @@ func handle_movement():
 	if Input.is_action_pressed("move_down"):
 		input_vector.y += 1
 	
-	velocity = input_vector.normalized() * speed
+	velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
 	move_and_slide()
 
 func handle_rotation():
@@ -60,21 +60,10 @@ func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	
-	var bullet = bullet_scene.instantiate()
+	var bullet: Bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
-	# Apply GameModifiers directly
-	var damage = 25
-	var speed = 600.0
-	
-	damage = int(damage * GameModifiers.player_damage_modifier)
-	speed *= GameModifiers.bullet_speed_modifier
-	
-	# Chaos mode: randomize bullet speed
-	if GameModifiers.bullet_chaos_mode:
-		speed *= randf_range(0.5, 2.0)
-	
-	bullet.setup(global_position, direction, damage, speed, true)
+	bullet.setup(global_position, direction)
 	
 	can_shoot = false
 	shoot_timer.start()

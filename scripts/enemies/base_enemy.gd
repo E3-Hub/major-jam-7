@@ -53,22 +53,19 @@ func _on_died():
 	queue_free()
 
 func drop_experience():
-	if exp_orb_scene:
-		var exp_orb: ExpOrb = exp_orb_scene.instantiate()
-		get_tree().current_scene.add_child(exp_orb)
-		exp_orb.global_position = global_position
-		exp_orb.setup(exp_value)
+	var exp_orb: ExpOrb = exp_orb_scene.instantiate()
+	get_tree().current_scene.add_child(exp_orb)
+	exp_orb.global_position = global_position
+	exp_orb.setup(exp_value)
 
 # Patch system modifier methods
 func apply_health_modifier(multiplier: float):
-	if health_system:
-		var old_max = health_system.max_health
-		var old_current = health_system.current_health
-		var health_percentage = health_system.get_health_percentage()
-		
-		health_system.max_health = int(old_max * multiplier)
-		health_system.current_health = int(health_system.max_health * health_percentage)
-		health_system.health_changed.emit(health_system.current_health, health_system.max_health)
+	var old_max = health_system.max_health
+	var health_percentage = health_system.get_health_percentage()
+	
+	health_system.max_health = int(old_max * multiplier)
+	health_system.current_health = int(health_system.max_health * health_percentage)
+	health_system.health_changed.emit(health_system.current_health, health_system.max_health)
 
 func apply_speed_modifier(multiplier: float):
 	speed *= multiplier

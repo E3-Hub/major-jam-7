@@ -44,41 +44,13 @@ offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PatchPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 275.0
-offset_top = 123.0
-offset_right = 895.0
-offset_bottom = 526.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PatchPanel"]
-layout_mode = 0
-offset_left = 160.0
-offset_right = 460.0
-offset_bottom = 403.0
-alignment = 1
-
-[node name="PatchTitle" type="Label" parent="PatchPanel/VBoxContainer"]
-layout_mode = 2
-text = "Patch Title"
-
-[node name="PatchDescription" type="Label" parent="PatchPanel/VBoxContainer"]
-layout_mode = 2
-text = "Description"
-
-[node name="PatchChanges" type="RichTextLabel" parent="PatchPanel/VBoxContainer"]
-layout_mode = 2
-
-[node name="CloseButton" type="Button" parent="PatchPanel/VBoxContainer"]
-layout_mode = 2
-text = "Continue"
-
 [node name="GameOverPanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 275.0
 offset_top = 123.0
 offset_right = 895.0
 offset_bottom = 526.0
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverPanel"]
 layout_mode = 0
@@ -91,5 +63,39 @@ alignment = 1
 layout_mode = 2
 
 [node name="RestartButton" type="Button" parent="GameOverPanel/VBoxContainer"]
+process_mode = 3
 layout_mode = 2
+mouse_filter = 1
 text = "Restart"
+
+[node name="PatchPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 275.0
+offset_top = 123.0
+offset_right = 895.0
+offset_bottom = 526.0
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PatchPanel"]
+layout_mode = 0
+offset_left = 160.0
+offset_right = 460.0
+offset_bottom = 403.0
+alignment = 1
+
+[node name="PatchTitle" type="Label" parent="PatchPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Patch Title"
+
+[node name="PatchChanges" type="RichTextLabel" parent="PatchPanel/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Changes"
+fit_content = true
+
+[node name="CloseButton" type="Button" parent="PatchPanel/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+mouse_filter = 1
+text = "Continue"

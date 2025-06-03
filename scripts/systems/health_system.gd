@@ -8,7 +8,7 @@ signal died
 var current_health: int
 
 func _ready():
-	current_health = max_health
+	current_health = int(max_health * (1 + GameModifiers.enemy_health_modifier))
 	health_changed.emit(current_health, max_health)
 
 func take_damage(damage: int):
@@ -26,4 +26,4 @@ func is_alive() -> bool:
 	return current_health > 0
 
 func get_health_percentage() -> float:
-	return float(current_health) / float(max_health) 
+	return float(current_health) / float(max_health)

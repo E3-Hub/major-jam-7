@@ -17,6 +17,11 @@ func _ready():
 	else:
 		collision_layer = 8 # Enemy bullets layer
 		collision_mask = 1 # Player layer
+
+	damage = int(damage * (1 + (GameModifiers.enemy_damage_modifier if is_player_bullet else GameModifiers.player_damage_modifier)))
+	speed *= (1 + GameModifiers.bullet_speed_modifier)
+	if GameModifiers.bullet_chaos_mode:
+		speed *= randf_range(0.5, 1.5)
 	
 	# Connect collision signal
 	body_entered.connect(_on_body_entered)
@@ -33,13 +38,10 @@ func _physics_process(delta):
 	# Move the bullet
 	global_position += velocity * delta
 
-func setup(start_position: Vector2, target_direction: Vector2, bullet_damage: int = 10, bullet_speed: float = 500.0, player_bullet: bool = true):
+func setup(start_position: Vector2, target_direction: Vector2):
 	global_position = start_position
 	direction = target_direction.normalized()
-	velocity = direction * bullet_speed
-	damage = bullet_damage
-	speed = bullet_speed
-	is_player_bullet = player_bullet
+	velocity = direction * speed
 
 func _on_body_entered(body):
 	if body.has_method("take_damage"):
