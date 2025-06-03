@@ -15,6 +15,10 @@ run/main_scene="uid://conoeay4a3lm8"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameModifiers="*res://scripts/systems/game_modifiers.gd"
+
 [debug]
 
 gdscript/warnings/unused_parameter=0

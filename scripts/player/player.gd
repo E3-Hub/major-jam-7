@@ -62,7 +62,19 @@ func shoot():
 	
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
-	bullet.setup(global_position, direction, 25, 600.0, true)
+	
+	# Apply GameModifiers directly
+	var damage = 25
+	var speed = 600.0
+	
+	damage = int(damage * GameModifiers.player_damage_modifier)
+	speed *= GameModifiers.bullet_speed_modifier
+	
+	# Chaos mode: randomize bullet speed
+	if GameModifiers.bullet_chaos_mode:
+		speed *= randf_range(0.5, 2.0)
+	
+	bullet.setup(global_position, direction, damage, speed, true)
 	
 	can_shoot = false
 	shoot_timer.start()

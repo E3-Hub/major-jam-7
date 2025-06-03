@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://conoeay4a3lm8"]
+[gd_scene load_steps=7 format=3 uid="uid://conoeay4a3lm8"]
 
 [ext_resource type="PackedScene" uid="uid://btwd2fqncuir3" path="res://scenes/player/player.tscn" id="1_0wkb6"]
 [ext_resource type="Script" uid="uid://mcvp0d1gqc3j" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
 [ext_resource type="PackedScene" uid="uid://bfmytxo3jyj5e" path="res://scenes/ui/ui_manager.tscn" id="3_f8fyy"]
+[ext_resource type="Script" uid="uid://cmdb2sjeaafjm" path="res://scripts/systems/patch_system.gd" id="4_tt8nk"]
 [ext_resource type="Script" uid="uid://dhhniimbgha7d" path="res://scripts/systems/enemy_spawner.gd" id="4_wbupf"]
 [ext_resource type="PackedScene" uid="uid://78kvgyiyo5ih" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
 
@@ -12,7 +13,7 @@
 
 [node name="Player" parent="." instance=ExtResource("1_0wkb6")]
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." groups=["game_manager"]]
 script = ExtResource("2_mli2r")
 metadata/_custom_type_script = "uid://mcvp0d1gqc3j"
 
@@ -22,7 +23,13 @@ offset_top = -322.0
 offset_right = -573.0
 offset_bottom = -322.0
 
-[node name="EnemySpawner" type="Node2D" parent="."]
+[node name="PatchSystem" type="Node" parent="GameManager"]
+script = ExtResource("4_tt8nk")
+metadata/_custom_type_script = "uid://cmdb2sjeaafjm"
+
+[node name="PatchTimer" type="Timer" parent="GameManager/PatchSystem"]
+
+[node name="EnemySpawner" type="Node2D" parent="." groups=["enemy_spawner"]]
 script = ExtResource("4_wbupf")
 enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr")])
 metadata/_custom_type_script = "uid://dhhniimbgha7d"

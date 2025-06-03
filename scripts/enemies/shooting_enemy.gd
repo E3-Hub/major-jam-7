@@ -38,12 +38,29 @@ func update_ai(delta):
 func shoot_at_player():
 	var direction = (player.global_position - global_position).normalized()
 	
-	var bullet: Bullet = bullet_scene.instantiate()
+	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
-	bullet.setup(global_position, direction, 15, 400.0, false)
+	
+	# Apply GameModifiers directly
+	var damage = 15
+	var speed = 400.0
+	
+	damage = int(damage * GameModifiers.enemy_damage_modifier)
+	speed *= GameModifiers.bullet_speed_modifier
+	
+	# Chaos mode: randomize bullet speed
+	if GameModifiers.bullet_chaos_mode:
+		speed *= randf_range(0.3, 1.8)
+	
+	bullet.setup(global_position, direction, damage, speed, false)
 	
 	can_shoot = false
 	shoot_timer.start()
 
 func _on_shoot_timer_timeout():
 	can_shoot = true
+
+# Patch system modifier method
+func apply_fire_rate_modifier(multiplier: float):
+	shoot_cooldown *= multiplier
+	shoot_timer.wait_time = shoot_cooldown
