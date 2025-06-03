@@ -16,8 +16,6 @@ func _ready():
 	player.experience_system.experience_gained.connect(_on_player_exp_changed)
 	player.experience_system.level_up.connect(_on_player_level_up)
 
-	patch_system.patch_applied.connect(_on_patch_applied)
-
 func _process(delta):
 	if not is_game_over:
 		game_time += delta
@@ -36,10 +34,6 @@ func _on_player_exp_changed(current_exp: int, exp_to_next: int):
 
 func _on_player_level_up(new_level: int):
 	ui_manager.update_level(new_level)
-
-func _on_patch_applied(patch_data: Dictionary):
-	print("Patch applied: ", patch_data.title)
-	# Additional patch effects can be handled here
 
 func restart_game():
 	get_tree().reload_current_scene()
