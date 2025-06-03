@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://78kvgyiyo5ih"]
 
-[ext_resource type="Script" uid="uid://cli6kjrioa6kv" path="res://scripts/systems/health_system.gd" id="1_5ipbc"]
-[ext_resource type="Script" uid="uid://fn25wmrgbm2v" path="res://scripts/enemies/shooting_enemy.gd" id="1_l333l"]
+[ext_resource type="Script" uid="uid://2qsqciy00tk0" path="res://scripts/systems/health_system.gd" id="1_5ipbc"]
+[ext_resource type="Script" uid="uid://cv3qoqqa75lau" path="res://scripts/enemies/shooting_enemy.gd" id="1_l333l"]
 [ext_resource type="PackedScene" uid="uid://cgxuk2rbjvolx" path="res://scenes/enemies/enemy_bullet.tscn" id="2_qgynv"]
 [ext_resource type="Texture2D" uid="uid://cii7dqbxbrkds" path="res://assets/enemies/shooting_enemy.png" id="4_lq5po"]
 
