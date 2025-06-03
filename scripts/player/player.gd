@@ -2,9 +2,9 @@ extends CharacterBody2D
 class_name Player
 
 @export var speed: float = 300.0
-@export var dash_speed: float = 900
+@export var dash_speed: float
 @export var is_dashing: bool = false
-@export var dash_duration: float = 0.2  # seconds
+@export var dash_duration: float = 0.2 # seconds
 @export var dash_timer: float = 0.0
 @export var dash_cooldown: float = 1.0
 @export var dash_cooldown_timer: float = 0.0
@@ -16,6 +16,7 @@ class_name Player
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
 @onready var shoot_timer: Timer = $ShootTimer
 
+var last_player_speed_modifier_state: float = GameModifiers.player_speed_modifier
 var can_shoot: bool = true
 
 signal player_died
@@ -41,11 +42,14 @@ func _physics_process(delta):
 	handle_shooting()
 
 func handle_movement():
+	dash_speed = speed * 3
 	var input_vector = get_input_direction()
+
 	if is_dashing:
-		velocity = dash_direction.normalized() * dash_speed
+		velocity = dash_direction.normalized() * dash_speed * (1 + GameModifiers.player_speed_modifier)
 	else:
-		velocity = input_vector.normalized() * speed
+		velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
+
 	move_and_slide()
 
 func handle_dash(delta):
