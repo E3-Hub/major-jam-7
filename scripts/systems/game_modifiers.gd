@@ -5,6 +5,7 @@ extends Node
 
 # Damage modifiers
 var player_damage_modifier: float = 0.0
+var match_color_damage_modifier: float = 1.0
 var enemy_damage_modifier: float = 0.0
 
 # Speed modifiers

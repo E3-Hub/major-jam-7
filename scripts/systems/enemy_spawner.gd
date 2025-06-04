@@ -2,14 +2,19 @@ extends Node2D
 class_name EnemySpawner
 
 @export var enemy_scenes: Array[PackedScene] = []
-@export var base_spawn_interval: float = 3.0
-@export var spawn_distance: float = 600.0
+@export var spawn_interval: float = 3.0
+@export var spawn_wave_interval: float = 15.0
+@export var spawn_distance: float = 100.0
 
 @onready var spawn_timer: Timer = $SpawnTimer
+@onready var spawn_wave_timer: Timer = $SpawnWaveTimer
 
 var player: Player
 var current_level: int = 1
 var enemies_spawned: int = 0
+
+var current_spawn_side: int = 0
+var current_spawn_color: int = EnemyColorType.RED
 
 func _ready():
 	# Find player
@@ -17,9 +22,13 @@ func _ready():
 	player.experience_system.level_up.connect(_on_player_level_up)
 	
 	# Setup spawn timer
-	spawn_timer.wait_time = base_spawn_interval
+	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
+
+	spawn_wave_timer.wait_time = spawn_wave_interval
+	spawn_wave_timer.timeout.connect(_on_spawn_wave_timeout)
+	spawn_wave_timer.start()
 
 func _on_spawn_timer_timeout():
 	spawn_enemy()
@@ -27,7 +36,11 @@ func _on_spawn_timer_timeout():
 	# Adjust spawn rate based on level
 	var level_multiplier = 1.0 - (current_level - 1) * 0.1
 	level_multiplier = max(level_multiplier, 0.3) # Don't go below 30% of base interval
-	spawn_timer.wait_time = base_spawn_interval * level_multiplier
+	spawn_timer.wait_time = spawn_interval * level_multiplier
+
+func _on_spawn_wave_timeout():
+	current_spawn_side = randi() % 4
+	current_spawn_color = randi() % 3
 
 func spawn_enemy():
 	if not player or enemy_scenes.is_empty():
@@ -35,11 +48,7 @@ func spawn_enemy():
 	
 	# Choose random enemy type
 	var enemy_scene = enemy_scenes[randi() % enemy_scenes.size()]
-	var enemy = enemy_scene.instantiate()
-	
-	# Get spawn position at screen edge
-	var spawn_pos = get_spawn_position()
-	enemy.global_position = spawn_pos
+	var enemy: BaseEnemy = enemy_scene.instantiate()
 	
 	# Scale enemy stats based on level
 	scale_enemy_for_level(enemy)
@@ -51,19 +60,17 @@ func spawn_enemy():
 	get_tree().current_scene.add_child(enemy)
 	enemies_spawned += 1
 
+	# Get spawn position at screen edge
+	var spawn_pos = get_spawn_position()
+	enemy.setup(current_spawn_color, spawn_pos)
+
 func get_spawn_position() -> Vector2:
-	if not player:
-		return Vector2.ZERO
-	
 	# Get screen size
 	var viewport = get_viewport()
 	var screen_size = viewport.get_visible_rect().size
-	
-	# Choose random edge (0=top, 1=right, 2=bottom, 3=left)
-	var edge = randi() % 4
 	var spawn_pos = Vector2.ZERO
 	
-	match edge:
+	match current_spawn_side:
 		0: # Top
 			spawn_pos = Vector2(randf_range(0, screen_size.x), -spawn_distance)
 		1: # Right
