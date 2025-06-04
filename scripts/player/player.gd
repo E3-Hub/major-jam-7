@@ -54,9 +54,9 @@ func handle_movement():
 	var input_vector = get_input_direction()
 
 	if is_dashing:
-		velocity = dash_direction.normalized() * dash_speed * (1 + GameModifiers.player_speed_modifier)
+		velocity = dash_direction.normalized() * dash_speed * GameModifiers.player_speed_modifier
 	else:
-		velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
+		velocity = input_vector.normalized() * speed * GameModifiers.player_speed_modifier
 
 	move_and_slide()
 

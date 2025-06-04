@@ -15,9 +15,9 @@ var enemy_color: int
 signal enemy_died(enemy: BaseEnemy)
 
 func _ready():
-	exp_value = int(exp_value * (1 + GameModifiers.enemy_exp_modifier))
-	speed *= (1 + GameModifiers.enemy_speed_modifier)
-	health_system.max_health = int(health_system.max_health * (1 + GameModifiers.enemy_health_modifier))
+	exp_value = int(exp_value * GameModifiers.experience_modifier)
+	speed *= GameModifiers.enemy_speed_modifier
+	health_system.max_health = int(health_system.max_health * GameModifiers.enemy_health_modifier)
 	health_system.current_health = health_system.max_health
 
 	# Set up collision layers

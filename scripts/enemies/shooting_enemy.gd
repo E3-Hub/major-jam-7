@@ -13,7 +13,7 @@ func _ready():
 	super._ready()
 	
 	# Setup shoot timer
-	shoot_timer.wait_time = shoot_cooldown / (1 + GameModifiers.enemy_fire_rate_modifier)
+	shoot_timer.wait_time = shoot_cooldown / GameModifiers.enemy_fire_rate_modifier
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 

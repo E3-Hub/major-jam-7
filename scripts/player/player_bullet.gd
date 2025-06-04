@@ -15,8 +15,8 @@ func _ready():
 	collision_layer = 4 # Player bullets layer
 	collision_mask = 2 # Enemy layer
 
-	damage = int(damage * (1 + GameModifiers.player_damage_modifier))
-	speed *= (1 + GameModifiers.bullet_speed_modifier)
+	damage = int(damage * GameModifiers.player_damage_modifier)
+	speed *= GameModifiers.bullet_speed_modifier
 	if GameModifiers.bullet_chaos_mode:
 		speed *= randf_range(0.5, 1.5)
 	
@@ -46,7 +46,7 @@ func _on_body_entered(body):
 	if body.has_method("take_damage"):
 		var final_damage = damage
 		if bullet_color == body.enemy_color:
-			final_damage = int(damage * (1 + GameModifiers.match_color_damage_modifier))
+			final_damage = int(damage * GameModifiers.match_color_damage_modifier)
 		body.take_damage(final_damage)
 	queue_free()
 

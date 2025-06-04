@@ -126,6 +126,6 @@ func apply_patch_effect(patch: PatchData):
 			GameModifiers.bullet_speed_modifier += patch.value
 		"player_fire_rate":
 			GameModifiers.player_fire_rate_modifier += patch.value
-			player.shoot_timer.wait_time = player.base_shoot_cooldown / (1 + GameModifiers.player_fire_rate_modifier)
+			player.shoot_timer.wait_time = player.base_shoot_cooldown / GameModifiers.player_fire_rate_modifier
 		"experience":
 			GameModifiers.experience_modifier += patch.value
