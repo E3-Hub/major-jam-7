@@ -23,7 +23,7 @@ func _ready():
 	if GameModifiers.bullet_chaos_mode:
 		speed *= randf_range(0.5, 1.5)
 	
-	# Connect collision signal
+	# Connect collision
 	body_entered.connect(_on_body_entered)
 	
 	# Auto-destroy after lifetime

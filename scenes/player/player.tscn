@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://btwd2fqncuir3"]
 
-[ext_resource type="Script" uid="uid://cli6kjrioa6kv" path="res://scripts/systems/health_system.gd" id="1_8afob"]
-[ext_resource type="Script" uid="uid://cnq7fdbs1ek4g" path="res://scripts/player/player.gd" id="1_gmlin"]
-[ext_resource type="Script" uid="uid://c3tlime6b2vap" path="res://scripts/systems/experience_system.gd" id="2_dovo2"]
+[ext_resource type="Script" uid="uid://2qsqciy00tk0" path="res://scripts/systems/health_system.gd" id="1_8afob"]
+[ext_resource type="Script" uid="uid://djpfhbjs8v8sj" path="res://scripts/player/player.gd" id="1_gmlin"]
+[ext_resource type="Script" uid="uid://cojjxm1fceays" path="res://scripts/systems/experience_system.gd" id="2_dovo2"]
 [ext_resource type="PackedScene" uid="uid://s0kxug1tajl2" path="res://scenes/player/player_bullet.tscn" id="2_lvxji"]
 [ext_resource type="Texture2D" uid="uid://dpu802deiywy" path="res://assets/player/player.png" id="3_p47bc"]
 
@@ -23,8 +23,6 @@ shape = SubResource("CircleShape2D_75vfm")
 
 [node name="HealthSystem" type="Node" parent="."]
 script = ExtResource("1_8afob")
-metadata/_custom_type_script = "uid://cli6kjrioa6kv"
 
 [node name="ExperienceSystem" type="Node" parent="."]
 script = ExtResource("2_dovo2")
-metadata/_custom_type_script = "uid://c3tlime6b2vap"

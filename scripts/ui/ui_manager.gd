@@ -18,11 +18,17 @@ class_name UIManager
 # Card UI
 @onready var card_container: HBoxContainer = $CardContainer
 
+# Effect UI
+@onready var effect_panel: Panel = $EffectPanel
+@onready var effect_title: Label = $EffectPanel/EffectTitle
+@onready var effect_status: RichTextLabel = $EffectPanel/EffectStatus
+
 func _ready():
 	restart_button.pressed.connect(_on_restart_pressed)
 	patch_close_button.pressed.connect(_on_patch_close_pressed)
 	game_over_panel.visible = false
 	patch_panel.visible = false
+	effect_panel.visible = false
 
 func update_health(current_health: int, max_health: int):
 	if health_bar:
@@ -90,3 +96,18 @@ func show_card_choices(cards: Array[Card], callback: Callable):
 		card_container.add_child(btn)
 
 	card_container.show()
+
+func show_effect_panel(title: String, status: String):
+	effect_title.text = title
+	effect_status.text = status # Use description for the actual status
+	effect_panel.visible = true
+	effect_status.visible = false
+
+	await get_tree().create_timer(0.5).timeout
+	effect_status.visible = true
+	await get_tree().create_timer(4.5).timeout
+	effect_status.visible = false
+	
+	await get_tree().create_timer(1).timeout
+	effect_panel.visible = false
+	
