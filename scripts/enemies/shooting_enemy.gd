@@ -38,7 +38,7 @@ func update_ai(delta):
 func shoot_at_player():
 	var direction = (player.global_position - global_position).normalized()
 	
-	var bullet: Bullet = bullet_scene.instantiate()
+	var bullet: EnemyBullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
 	bullet.setup(global_position, direction)

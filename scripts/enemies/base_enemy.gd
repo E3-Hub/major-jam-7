@@ -6,9 +6,11 @@ class_name BaseEnemy
 @export var bullet_scene: PackedScene
 
 @onready var health_system: HealthSystem = $HealthSystem
+@onready var sprite: Sprite2D = $Sprite2D
 
 var player: Player
 var exp_orb_scene: PackedScene
+var enemy_color: int
 
 signal enemy_died(enemy: BaseEnemy)
 
@@ -29,6 +31,11 @@ func _ready():
 	# Try to load exp orb scene
 	if ResourceLoader.exists("res://scenes/world/exp_orb.tscn"):
 		exp_orb_scene = load("res://scenes/world/exp_orb.tscn")
+
+func setup(color_type: int, p_position: Vector2):
+	enemy_color = color_type
+	sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(enemy_color))
+	global_position = p_position
 
 func _physics_process(delta):
 	if player and health_system.is_alive():
