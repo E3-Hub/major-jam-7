@@ -2,16 +2,15 @@ extends Area2D
 class_name ExpOrb
 
 @export var exp_value: int = 10
-@export var pickup_range: float = 50.0
-@export var move_speed: float = 200.0
+@export var move_speed: float = 400.0
 
 var player: Player
 var is_being_collected: bool = false
 
 func _ready():
 	# Set up collision layers
-	collision_layer = 16  # Exp orb layer
-	collision_mask = 1    # Player layer
+	collision_layer = 16 # Exp orb layer
+	collision_mask = 1 # Player layer
 	
 	# Connect signals
 	body_entered.connect(_on_body_entered)
@@ -39,4 +38,4 @@ func _on_body_entered(body):
 func collect():
 	if player:
 		player.collect_experience(exp_value)
-	queue_free() 
+	queue_free()

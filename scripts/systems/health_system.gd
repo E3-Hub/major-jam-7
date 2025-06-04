@@ -5,10 +5,9 @@ signal health_changed(current_health: int, max_health: int)
 signal died
 
 @export var max_health: int = 100
-var current_health: int
+var current_health: int = max_health
 
 func _ready():
-	current_health = int(max_health * (1 + GameModifiers.enemy_health_modifier))
 	health_changed.emit(current_health, max_health)
 
 func take_damage(damage: int):

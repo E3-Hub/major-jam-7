@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name BaseEnemy
 
 @export var speed: float = 100.0
-@export var exp_value: int = 10
+@export var exp_value: int = 5
 @export var bullet_scene: PackedScene
 
 @onready var health_system: HealthSystem = $HealthSystem
@@ -15,6 +15,11 @@ var enemy_color: int
 signal enemy_died(enemy: BaseEnemy)
 
 func _ready():
+	exp_value = int(exp_value * (1 + GameModifiers.enemy_exp_modifier))
+	speed *= (1 + GameModifiers.enemy_speed_modifier)
+	health_system.max_health = int(health_system.max_health * (1 + GameModifiers.enemy_health_modifier))
+	health_system.current_health = health_system.max_health
+
 	# Set up collision layers
 	collision_layer = 2 # Enemy layer
 	collision_mask = 1 # Player layer
@@ -65,18 +70,3 @@ func drop_experience():
 	get_tree().current_scene.add_child(exp_orb)
 	exp_orb.global_position = global_position
 	exp_orb.setup(exp_value)
-
-# Patch system modifier methods
-func apply_health_modifier(multiplier: float):
-	var old_max = health_system.max_health
-	var health_percentage = health_system.get_health_percentage()
-	
-	health_system.max_health = int(old_max * multiplier)
-	health_system.current_health = int(health_system.max_health * health_percentage)
-	health_system.health_changed.emit(health_system.current_health, health_system.max_health)
-
-func apply_speed_modifier(multiplier: float):
-	speed *= multiplier
-
-func apply_exp_modifier(multiplier: float):
-	exp_value = int(exp_value * multiplier)
