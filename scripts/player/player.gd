@@ -16,8 +16,8 @@ class_name Player
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
 @onready var shoot_timer: Timer = $ShootTimer
 
-var last_player_speed_modifier_state: float = GameModifiers.player_speed_modifier
 var can_shoot: bool = true
+@onready var looting: int = 1
 
 signal player_died
 
@@ -28,7 +28,7 @@ func _ready():
 	
 	# Connect signals
 	health_system.died.connect(_on_died)
-	experience_system.level_up.connect(_on_level_up)
+	# experience_system.level_up.connect(_on_level_up)
 	
 	# Setup shoot timer
 	shoot_timer.wait_time = base_shoot_cooldown
@@ -117,6 +117,6 @@ func collect_experience(amount: int):
 func _on_died():
 	player_died.emit()
 
-func _on_level_up(new_level: int):
-	print("Player leveled up to level ", new_level)
-	# Here you can add level up effects like increased stats 
+# func _on_level_up(new_level: int):
+# 	print("Player leveled up to level ", new_level)
+# 	# Here you can add level up effects like increased stats 

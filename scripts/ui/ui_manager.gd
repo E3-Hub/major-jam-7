@@ -15,6 +15,9 @@ class_name UIManager
 @onready var patch_changes: RichTextLabel = $PatchPanel/VBoxContainer/PatchChanges
 @onready var patch_close_button: Button = $PatchPanel/VBoxContainer/CloseButton
 
+# Card UI
+@onready var card_container: HBoxContainer = $CardContainer
+
 func _ready():
 	restart_button.pressed.connect(_on_restart_pressed)
 	patch_close_button.pressed.connect(_on_patch_close_pressed)
@@ -67,3 +70,23 @@ func _on_patch_close_pressed():
 func _on_restart_pressed():
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+
+func show_card_choices(cards: Array[Card], callback: Callable):
+	card_container.process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().paused = true
+	for child in card_container.get_children():
+		child.queue_free()
+
+	for card in cards:
+		var btn: Button = Button.new()
+		btn.text = "%s\nrarity[%s]" % [card.title, card.rarity]
+
+		btn.connect("pressed", func():
+			card_container.hide()
+			get_tree().paused = false
+			callback.callv([card])
+		)
+
+		card_container.add_child(btn)
+
+	card_container.show()

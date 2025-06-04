@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name BaseEnemy
 
 @export var speed: float = 100.0
-@export var exp_value: int = 10
+@export var exp_value: int = 10*9
 @export var bullet_scene: PackedScene
 
 @onready var health_system: HealthSystem = $HealthSystem

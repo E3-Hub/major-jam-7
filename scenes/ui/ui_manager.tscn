@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bfmytxo3jyj5e"]
 
-[ext_resource type="Script" uid="uid://bbqw1ifxhem0h" path="res://scripts/ui/ui_manager.gd" id="1_qjbkm"]
+[ext_resource type="Script" uid="uid://dorw2q5m43s1k" path="res://scripts/ui/ui_manager.gd" id="1_qjbkm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjbkm"]
 bg_color = Color(0.808406, 0, 0.124901, 1)
@@ -99,3 +99,15 @@ process_mode = 3
 layout_mode = 2
 mouse_filter = 1
 text = "Continue"
+
+[node name="CardContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.238
+anchor_top = 0.221
+anchor_right = 0.238
+anchor_bottom = 0.221
+offset_left = 169.824
+offset_top = -0.208008
+offset_right = 462.824
+offset_bottom = 118.792
