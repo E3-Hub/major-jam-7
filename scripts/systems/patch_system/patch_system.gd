@@ -114,20 +114,18 @@ func apply_patch_effect(patch: PatchData):
 			GameModifiers.enemy_health_modifier += patch.value
 		"all_enemy_spawn_rate":
 			GameModifiers.enemy_spawn_rate_modifier += patch.value
-		"player_speed_nerf":
+		"player_speed":
 			GameModifiers.player_speed_modifier += patch.value
-		"enemy_speed_buff":
+		"all_enemy_speed":
 			GameModifiers.enemy_speed_modifier += patch.value
-		"player_damage_buff":
+		"player_damage":
 			GameModifiers.player_damage_modifier += patch.value
-		"enemy_damage_nerf":
+		"all_enemy_damage":
 			GameModifiers.enemy_damage_modifier += patch.value
-		"bullet_speed_buff":
+		"bullet_speed":
 			GameModifiers.bullet_speed_modifier += patch.value
-		"player_fire_rate_buff":
+		"player_fire_rate":
 			GameModifiers.player_fire_rate_modifier += patch.value
 			player.shoot_timer.wait_time = player.base_shoot_cooldown / (1 + GameModifiers.player_fire_rate_modifier)
-		"exp_nerf":
+		"experience":
 			GameModifiers.experience_modifier += patch.value
-		"spawn_distance_nerf":
-			GameModifiers.enemy_spawn_distance_modifier += patch.value

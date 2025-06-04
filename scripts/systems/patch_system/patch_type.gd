@@ -49,12 +49,20 @@ static var patch_types: Array[PatchType] = [
 		-0.05
 	),
 	PatchType.new(
-		"player_speed_nerf",
-		["Fixed player speed exploit", "Movement was too fast", "Balanced player mobility"],
-		["Reduced player speed by {value}%", "Player movement slowed by {value}%", "Fixed speed exploit (-{value}%)"],
+		"player_speed_buff",
+		["Improved player movement", "Boosted player speed", "Enhanced mobility for players"],
+		["Increased player speed by +{value}%", "Player moves faster +{value}%", "Buffed movement speed (+{value}%)"],
 		"player_speed",
 		0.05,
 		0.15
+	),
+	PatchType.new(
+		"player_speed_nerf",
+		["Fixed player speed exploit", "Movement was too fast", "Balanced player mobility"],
+		["Reduced player speed by {value}%", "Player movement slowed by {value}%", "Fixed speed exploit ({value}%)"],
+		"player_speed",
+		-0.15,
+		-0.05
 	),
 	PatchType.new(
 		"enemy_speed_buff",

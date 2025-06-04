@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 @export var speed: float = 300.0
-@export var dash_speed: float = 900
+@export var dash_speed: float
 @export var is_dashing: bool = false
 @export var dash_duration: float = 0.2 # seconds
 @export var dash_timer: float = 0.0
@@ -50,11 +50,14 @@ func _physics_process(delta):
 	handle_color_cycling()
 
 func handle_movement():
+	dash_speed = speed * 3
 	var input_vector = get_input_direction()
+
 	if is_dashing:
-		velocity = dash_direction.normalized() * dash_speed
+		velocity = dash_direction.normalized() * dash_speed * (1 + GameModifiers.player_speed_modifier)
 	else:
-		velocity = input_vector.normalized() * speed
+		velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
+
 	move_and_slide()
 
 func handle_dash(delta):

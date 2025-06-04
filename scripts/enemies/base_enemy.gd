@@ -53,6 +53,7 @@ func move_towards_player(delta):
 
 func take_damage(damage: int):
 	health_system.take_damage(damage)
+	
 
 func _on_died():
 	drop_experience()
