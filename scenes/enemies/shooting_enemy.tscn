@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cii7dqbxbrkds" path="res://assets/enemies/shooting_enemy.png" id="4_lq5po"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l333l"]
-radius = 17.0294
+radius = 38.0132
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bghml"]
 resource_local_to_scene = true

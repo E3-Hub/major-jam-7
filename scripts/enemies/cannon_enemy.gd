@@ -3,7 +3,6 @@ class_name CannonEnemy
 
 @export var spawn_warning_time: float = 3.0
 @export var landing_damage: int = 30
-@export var landing_radius: float = 40.0
 @export var landing_knockback_force: float = 300.0
 @export var shoot_range: float = 400.0
 @export var shoot_cooldown: float = 4.0

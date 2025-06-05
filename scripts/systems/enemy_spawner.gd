@@ -7,8 +7,8 @@ class_name EnemySpawner
 @export var spawn_outside_margin: float = 100.0
 @export var spawn_inside_margin: float = 100.0
 
-@onready var spawn_timer: Timer = $SpawnTimer
-@onready var spawn_wave_timer: Timer = $SpawnWaveTimer
+var spawn_timer: Timer
+var spawn_wave_timer: Timer
 
 var player: Player
 var current_level: int = 1
@@ -23,10 +23,14 @@ func _ready():
 	player.experience_system.level_up.connect(_on_player_level_up)
 	
 	# Setup spawn timer
+	spawn_timer = Timer.new()
+	add_child(spawn_timer)
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
 
+	spawn_wave_timer = Timer.new()
+	add_child(spawn_wave_timer)
 	spawn_wave_timer.wait_time = spawn_wave_interval
 	spawn_wave_timer.timeout.connect(_on_spawn_wave_timeout)
 	spawn_wave_timer.start()
