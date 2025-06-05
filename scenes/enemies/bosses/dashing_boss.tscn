@@ -33,6 +33,8 @@ radius = 36.0
 height = 96.0
 
 [node name="DashingBoss" instance=ExtResource("1_iqv2l")]
+dash_range = 800.0
+exp_value = 100
 
 [node name="CollisionShape2D" parent="." index="0"]
 rotation = 1.5708
@@ -42,6 +44,9 @@ shape = SubResource("CapsuleShape2D_0vlp5")
 material = SubResource("ShaderMaterial_0vlp5")
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_1ndb3")
+
+[node name="HealthSystem" parent="." index="2"]
+max_health = 320
 
 [node name="CollisionShape2D" parent="DashAttackArea" index="0"]
 rotation = 1.5708

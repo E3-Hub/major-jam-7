@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name BaseEnemy
 
 @export var speed: float = 100.0
-@export var exp_value: int = 5
+@export var exp_value: int = 10
 
 @onready var health_system: HealthSystem = $HealthSystem
 @onready var sprite: Sprite2D = $Sprite2D
@@ -19,6 +19,7 @@ func _ready():
 	speed *= GameModifiers.enemy_speed_modifier
 	health_system.max_health = int(health_system.max_health * GameModifiers.enemy_health_modifier)
 	health_system.current_health = health_system.max_health
+	scale *= GameModifiers.enemy_size_modifier
 
 	# Connect health system
 	health_system.died.connect(_on_died)

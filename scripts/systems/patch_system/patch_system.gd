@@ -1,8 +1,8 @@
 extends Node
 class_name PatchSystem
 
-@export var min_patch_interval: float = 30
-@export var max_patch_interval: float = 40
+@export var min_patch_interval: float = 20
+@export var max_patch_interval: float = 30
 
 @onready var patch_timer: Timer = $PatchTimer
 
@@ -89,9 +89,15 @@ func increment_version():
 
 func apply_random_patch():
 	var patches: Array[PatchData] = generate_random_patches()
+	patch_count += 1
+	if patch_count == 2:
+		patches.append(PatchData.new("Developer just have free time :3\n• Add new enemy type that dash toward player", "enemy_type_level", 1))
+	elif patch_count == 4:
+		patches.append(PatchData.new("Developer just hired a lot of intern\n• Add new enemy type that drop from sky", "enemy_type_level", 1))
+
 	var changes_text = ""
 
-	patch_count += 1
+	
 	for patch in patches:
 		changes_text += patch.text + "\n"
 		apply_patch_effect(patch)
@@ -129,3 +135,7 @@ func apply_patch_effect(patch: PatchData):
 			GameModifiers.experience_modifier += patch.value
 		"patch_power":
 			GameModifiers.patch_power_modifier += patch.value
+		"enemy_size":
+			GameModifiers.enemy_size_modifier += patch.value
+		"enemy_type_level":
+			GameModifiers.enemy_type_level += 1

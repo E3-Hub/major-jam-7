@@ -11,6 +11,7 @@ var velocity: Vector2
 func _ready():
 	collision_layer = 8 # Enemy bullets layer
 	collision_mask = 1 # Player layer
+	scale *= GameModifiers.enemy_size_modifier
 
 	damage = int(damage * GameModifiers.enemy_damage_modifier)
 	speed *= GameModifiers.bullet_speed_modifier

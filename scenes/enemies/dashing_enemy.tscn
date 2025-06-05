@@ -27,6 +27,7 @@ dash_distance = 600.0
 dash_damage = 25
 reflect_knockback_force = 300.0
 speed = 80.0
+exp_value = 12
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_l333l")
@@ -36,7 +37,7 @@ material = SubResource("ShaderMaterial_bghml")
 texture = ExtResource("4_lq5po")
 
 [node name="HealthSystem" parent="." index="2"]
-max_health = 60
+max_health = 80
 
 [node name="DashTimer" type="Timer" parent="." index="3"]
 
