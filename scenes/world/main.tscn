@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://conoeay4a3lm8"]
+[gd_scene load_steps=12 format=3 uid="uid://conoeay4a3lm8"]
 
 [ext_resource type="PackedScene" uid="uid://btwd2fqncuir3" path="res://scenes/player/player.tscn" id="1_0wkb6"]
 [ext_resource type="Script" uid="uid://mcvp0d1gqc3j" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://d2romlyepgwxu" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
 [ext_resource type="PackedScene" uid="uid://dojfb0kdsmryb" path="res://scenes/enemies/dashing_enemy.tscn" id="6_8xk2r"]
 [ext_resource type="PackedScene" uid="uid://cjfb0kdsmryb" path="res://scenes/enemies/cannon_enemy.tscn" id="7_cannon"]
+[ext_resource type="PackedScene" uid="uid://bopl6ffcqw4mr" path="res://scenes/enemies/bosses/dashing_boss.tscn" id="9_85j56"]
+[ext_resource type="PackedScene" uid="uid://cypnige0s0agl" path="res://scenes/enemies/bosses/shooting_boss.tscn" id="9_j0vxu"]
+[ext_resource type="PackedScene" uid="uid://b0mxywtnj1svf" path="res://scenes/enemies/bosses/cannon_boss.tscn" id="10_qip8x"]
 
 [node name="Main" type="Node2D"]
 
@@ -29,10 +32,13 @@ script = ExtResource("4_tt8nk")
 
 [node name="PatchTimer" type="Timer" parent="GameManager/PatchSystem"]
 
-[node name="EnemySpawner" type="Node2D" parent="." groups=["enemy_spawner"]]
+[node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("4_wbupf")
 enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr"), ExtResource("6_8xk2r"), ExtResource("7_cannon")])
 
-[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
-
-[node name="SpawnWaveTimer" type="Timer" parent="EnemySpawner"]
+[node name="BossSpawner" type="Node2D" parent="."]
+script = ExtResource("4_wbupf")
+enemy_scenes = Array[PackedScene]([ExtResource("9_85j56"), ExtResource("10_qip8x"), ExtResource("9_j0vxu")])
+spawn_interval = 2.0
+spawn_wave_interval = 20.0
+metadata/_custom_type_script = "uid://dhhniimbgha7d"

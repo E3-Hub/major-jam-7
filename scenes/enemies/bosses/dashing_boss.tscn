@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://bopl6ffcqw4mr"]
+
+[ext_resource type="PackedScene" uid="uid://dojfb0kdsmryb" path="res://scenes/enemies/dashing_enemy.tscn" id="1_iqv2l"]
+[ext_resource type="Texture2D" uid="uid://ctn6sp8alxrsn" path="res://assets/enemies/bosses/dashing_boss.png" id="2_1ndb3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vlp5"]
+radius = 34.0
+height = 92.0
+
+[sub_resource type="Shader" id="Shader_1ndb3"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 target_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float color_intensity : hint_range(0.0, 2.0) = 1.0;
+
+void fragment() {
+    vec4 tex_color = texture(TEXTURE, UV);
+
+    // Replace all pixels with target color, keeping original alpha
+    COLOR.rgb = target_color.rgb * color_intensity;
+    COLOR.a = tex_color.a * target_color.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0vlp5"]
+resource_local_to_scene = true
+shader = SubResource("Shader_1ndb3")
+shader_parameter/target_color = Color(1, 1, 1, 1)
+shader_parameter/color_intensity = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lejqn"]
+radius = 36.0
+height = 96.0
+
+[node name="DashingBoss" instance=ExtResource("1_iqv2l")]
+
+[node name="CollisionShape2D" parent="." index="0"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0vlp5")
+
+[node name="Sprite2D" parent="." index="1"]
+material = SubResource("ShaderMaterial_0vlp5")
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_1ndb3")
+
+[node name="CollisionShape2D" parent="DashAttackArea" index="0"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_lejqn")
