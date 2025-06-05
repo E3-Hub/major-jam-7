@@ -1,8 +1,8 @@
 extends Node
 class_name PatchSystem
 
-@export var min_patch_interval: float = 20
-@export var max_patch_interval: float = 30
+@export var min_patch_interval: float = 30
+@export var max_patch_interval: float = 40
 
 @onready var patch_timer: Timer = $PatchTimer
 
@@ -63,11 +63,11 @@ func _on_patch_timer_timeout():
 func generate_random_patches() -> Array[PatchData]:
 	var patches_selected: Array[PatchData] = []
 	var patch_types_left: Array[PatchType] = PatchType.patch_types
-	for i in 3:
+	for i in int(2 * GameModifiers.patch_power_modifier):
 		var patch_type: PatchType = patch_types_left[randi() % patch_types_left.size()]
 		patch_types_left = patch_types_left.filter(func(p): return p.group != patch_type.group)
 	
-		var value = randf_range(patch_type.min_value, patch_type.max_value)
+		var value = randf_range(patch_type.min_value, patch_type.max_value) * GameModifiers.patch_power_modifier
 		var description = patch_type.descriptions[randi() % patch_type.descriptions.size()]
 		var change_template = patch_type.change_templates[randi() % patch_type.change_templates.size()]
 		var change_text = change_template.format({"value": int(abs(value * 100))})
@@ -126,6 +126,8 @@ func apply_patch_effect(patch: PatchData):
 			GameModifiers.bullet_speed_modifier += patch.value
 		"player_fire_rate":
 			GameModifiers.player_fire_rate_modifier += patch.value
-			player.shoot_timer.wait_time = player.base_shoot_cooldown / (1 + GameModifiers.player_fire_rate_modifier)
+			player.shoot_timer.wait_time = player.base_shoot_cooldown / GameModifiers.player_fire_rate_modifier
 		"experience":
 			GameModifiers.experience_modifier += patch.value
+		"patch_power":
+			GameModifiers.patch_power_modifier += patch.value

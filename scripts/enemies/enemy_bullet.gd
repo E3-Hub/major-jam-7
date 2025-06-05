@@ -12,8 +12,8 @@ func _ready():
 	collision_layer = 8 # Enemy bullets layer
 	collision_mask = 1 # Player layer
 
-	damage = int(damage * (1 + GameModifiers.enemy_damage_modifier))
-	speed *= (1 + GameModifiers.bullet_speed_modifier)
+	damage = int(damage * GameModifiers.enemy_damage_modifier)
+	speed *= GameModifiers.bullet_speed_modifier
 	if GameModifiers.bullet_chaos_mode:
 		speed *= randf_range(0.5, 1.5)
 	
