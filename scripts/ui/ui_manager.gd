@@ -85,7 +85,7 @@ func show_card_choices(cards: Array[Card], callback: Callable):
 
 	for card in cards:
 		var btn: Button = Button.new()
-		btn.text = "%s\nrarity[%s]" % [card.title, card.rarity]
+		btn.text = "%s%s[%.2f]" % [card.title, card.rarity_type, card.rarity]
 
 		btn.connect("pressed", func():
 			card_container.hide()

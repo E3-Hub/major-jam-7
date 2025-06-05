@@ -1,46 +1,106 @@
 class_name CardLibrary
-static var stats = ["movement_speed", "damage", "looting", "health", "max_health", "EXP_gain", "                                                    "]
-static var card_rarity = [
-    [1.0/21,"Mythic",[["increase","percent"],["increase","percent"]]],
-    [2.0/21,"Legendary",[["increase","percent"],["increase","amount"]]],
-    [3.0/21,"Epic",[["increase","amount"],["increase","amount"]]],
-    [4.0/21,"Rare",[["increase","percent"],["decrease","amount"]]],
-    [5.0/21,"Uncommon",[["increase","amount"],["decrease","amount"]]],
-    [6.0/21,"Common",[["increase","amount"],["decrease","percent"]]],
 
+static var stats = ["movement_speed", "damage", "looting", "health", "max_health", "EXP_gain", "fire_rate_rpm"]
+static var all_rarity_combination: Array[RarityCombination] = [
+    RarityCombination.new(
+        1.0/21,"Mythic",["increase","increase"]
+    ),
+    RarityCombination.new(
+        2.0/21,"Legendary",["increase","increase"]
+    ),
+    RarityCombination.new(
+        3.0/21,"Epic",["increase","increase"]
+    ),
+    RarityCombination.new(
+        4.0/21,"Rare",["increase","decrease"]
+    ),
+    RarityCombination.new(
+        5.0/21,"Uncommon",["increase","decrease"]
+    ),
+    RarityCombination.new(
+        6.0/21,"Common",["increase","decrease"]
+    ),
 ]
-static var card_valuse ={
+static var invert_rarity_line: float = 1.0/all_rarity_combination.size()   # at midle rarity (between rare and epic)
+static var looting_to_rarity_factor: float = (2.0/13.0)/(21.0)
+static func get_total_weight_rarity() -> float:
+	var total = 0.0
+	for r in all_rarity_combination:
+		total += r.rarity
+	return total
+static var total_weight_rarity = get_total_weight_rarity()
+
+static var values_type = ["amount","percent"]
+static var values_increase_boundary_ratio_factor = {"Mythic":6,"Legendary":5,"Epic":4,"Rare":3,"Uncommon":2,"Common":1}
+static var values_decrease_boundary_ratio_factor = {"Rare":1,"Uncommon":2,"Common":3}
+static var card_values_range ={
     "movement_speed":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "amount_range": [5, 30],
+        "percent_range": [1, 10],
     },
     "damage":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "amount_range": [5, 47],
+        "percent_range": [5, 470],
     },
     "looting":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "amount_range": [1, 13],
+        "percent_range": [2, 30],
     },
     "health":{
         "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "percent_range": [5, 90],
     },
     "max_health":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "amount_range": [5,50],
+        "percent_range": [5, 50],
     },
     "EXP_gain":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+        "amount_range": [1,20],
+        "percent_range": [5, 100],
     },
-    "fire_rate":{
-        "amount_range": [5,90],
-        "percent_range": [2, 22],
+    "fire_rate_rpm":{
+        "amount_range": [100, 1000],
+        "percent_range": [30, 300],
     },
 }
+# test data
+static var all_cards: Array[Card] = [
+        Card.new(
+            6.0/21,
+            "Common",
+            " looting +(1) \n health +(5)",
+            "The god of greed takes pity on you.",
+            {
+                "increase_looting": 1,
+                "increase_health": 5,
+            }
+        ),
+        Card.new(
+            5.0/21,
+            "Uncommon",
+            " looting +(4) \n health +(5)",
+            "The god of greed shows mercy upon you.",
+            {
+                "increase_looting": 4,
+                "increase_health": 5,
+            }
+        ),
+]
 
-static var descriptions = {
+static var boss_cards: Array[Card] = [
+        Card.new(
+            2.0/21,
+            "Boss",
+            " looting +(1) \n health +(5)",
+            "The god of greed takes pity on you.",
+            {
+                "increase_looting": 1,
+                "increase_health": 5,
+            }
+        ),
+]
+
+static var descriptions: Dictionary[String, Array]= {
     "increase_movement_speed": [
         "You feel wind at your back.",
         "Your feet barely touch the ground.",
@@ -113,49 +173,16 @@ static var descriptions = {
         "You retain little from experience.",
         "Your progress slows to a crawl."
     ],
-    "increase_fire_rate": [
+    "increase_fire_rate_rpm": [
         "Your hands move with incredible speed.",
         "You fire with blinding precision.",
         "Your rhythm becomes a blur.",
-        "There’s no pause between strikes."
+        "There is no pause between strikes."
     ],
-    "decrease_fire_rate": [
+    "decrease_fire_rate_rpm": [
         "Your actions feel sluggish and delayed.",
         "You hesitate before every attack.",
         "Each movement is labored.",
         "You feel jammed up inside."
     ]
 }
-
-static var all_cards: Array[Card] = [
-        Card.new(
-            0.1,
-            " looting +(1) \n health +(5)",
-            "The god of greed takes pity on you.",
-            {
-                "increase_looting": 1,
-                "increase_health": 5,
-            }
-        ),
-        Card.new(
-            0.05,
-            " looting +(4) \n health +(5)",
-            "The god of greed shows mercy upon you.",
-            {
-                "increase_looting": 4,
-                "increase_health": 5,
-            }
-        ),
-]
-
-static var boss_cards: Array[Card] = [
-        Card.new(
-            0.05,
-            " looting +(1) \n health +(5)",
-            "The god of greed takes pity on you.",
-            {
-                "increase_looting": 1,
-                "increase_health": 5,
-            }
-        ),
-]
