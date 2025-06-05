@@ -19,7 +19,7 @@ shader_parameter/color_intensity = 1.0
 script = ExtResource("1_l333l")
 shoot_range = 300.0
 shoot_cooldown = 2.0
-stop_distance = 150.0
+stop_distance = 200.0
 bullet_scene = ExtResource("2_qgynv")
 
 [node name="CollisionShape2D" parent="." index="0"]

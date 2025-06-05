@@ -8,5 +8,5 @@ void fragment() {
 
     // Replace all pixels with target color, keeping original alpha
     COLOR.rgb = target_color.rgb * color_intensity;
-    COLOR.a = tex_color.a;
+    COLOR.a = tex_color.a * target_color.a;
 }
