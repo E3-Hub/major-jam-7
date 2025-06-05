@@ -25,6 +25,8 @@ func _on_player_died():
 	is_game_over = true
 	game_over.emit()
 	ui_manager.show_game_over(game_time)
+	get_tree().paused = true
+
 
 func _on_player_health_changed(current_health: int, max_health: int):
 	ui_manager.update_health(current_health, max_health)
@@ -36,4 +38,5 @@ func _on_player_level_up(new_level: int):
 	ui_manager.update_level(new_level)
 
 func restart_game():
+	get_tree().paused = false
 	get_tree().reload_current_scene()

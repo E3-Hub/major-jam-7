@@ -22,7 +22,7 @@ func _ready():
 
 	# Set up collision layers
 	collision_layer = 2 # Enemy layer
-	collision_mask = 1 # Player layer
+	collision_mask = 0 # Player layer
 	
 	# Connect health system
 	health_system.died.connect(_on_died)
@@ -37,10 +37,9 @@ func _ready():
 	if ResourceLoader.exists("res://scenes/world/exp_orb.tscn"):
 		exp_orb_scene = load("res://scenes/world/exp_orb.tscn")
 
-func setup(color_type: int, p_position: Vector2):
+func setup(color_type: int):
 	enemy_color = color_type
 	sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(enemy_color))
-	global_position = p_position
 
 func _physics_process(delta):
 	if player and health_system.is_alive():

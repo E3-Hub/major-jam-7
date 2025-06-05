@@ -2,7 +2,7 @@ extends Node2D
 class_name EnemySpawner
 
 @export var enemy_scenes: Array[PackedScene] = []
-@export var spawn_interval: float = 3.0
+@export var spawn_interval: float = 1.0
 @export var spawn_wave_interval: float = 15.0
 @export var spawn_distance: float = 100.0
 
@@ -32,11 +32,6 @@ func _ready():
 
 func _on_spawn_timer_timeout():
 	spawn_enemy()
-	
-	# Adjust spawn rate based on level
-	var level_multiplier = 1.0 - (current_level - 1) * 0.1
-	level_multiplier = max(level_multiplier, 0.3) # Don't go below 30% of base interval
-	spawn_timer.wait_time = spawn_interval * level_multiplier
 
 func _on_spawn_wave_timeout():
 	current_spawn_side = randi() % 4
@@ -49,9 +44,8 @@ func spawn_enemy():
 	# Choose random enemy type
 	var enemy_scene = enemy_scenes[randi() % enemy_scenes.size()]
 	var enemy: BaseEnemy = enemy_scene.instantiate()
-	
-	# Scale enemy stats based on level
-	scale_enemy_for_level(enemy)
+	var spawn_pos = get_spawn_position()
+	enemy.global_position = spawn_pos
 	
 	# Connect enemy death signal
 	enemy.enemy_died.connect(_on_enemy_died)
@@ -60,9 +54,7 @@ func spawn_enemy():
 	get_tree().current_scene.add_child(enemy)
 	enemies_spawned += 1
 
-	# Get spawn position at screen edge
-	var spawn_pos = get_spawn_position()
-	enemy.setup(current_spawn_color, spawn_pos)
+	enemy.setup(current_spawn_color)
 
 func get_spawn_position() -> Vector2:
 	# Get screen size
@@ -86,17 +78,6 @@ func get_spawn_position() -> Vector2:
 		spawn_pos += camera.global_position - screen_size / 2
 	
 	return spawn_pos
-
-func scale_enemy_for_level(enemy: BaseEnemy):
-	# Increase enemy stats based on current level
-	var level_multiplier = 1.0 + (current_level - 1) * 0.2
-	
-	if enemy.health_system:
-		enemy.health_system.max_health = int(enemy.health_system.max_health * level_multiplier)
-		enemy.health_system.current_health = enemy.health_system.max_health
-	
-	enemy.speed *= (1.0 + (current_level - 1) * 0.1)
-	enemy.exp_value = int(enemy.exp_value * level_multiplier)
 
 func _on_player_level_up(new_level: int):
 	current_level = new_level

@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://dojfb0kdsmryb"]
+
+[ext_resource type="PackedScene" uid="uid://qpyt28bmnfkj" path="res://scenes/enemies/base_enemy.tscn" id="1_5ipbc"]
+[ext_resource type="Script" uid="uid://n2f0bamdbk3w" path="res://scripts/enemies/dashing_enemy.gd" id="1_l333l"]
+[ext_resource type="Shader" uid="uid://ct66c7vhhyphg" path="res://assets/shaders/color_change.gdshader" id="4_bghml"]
+[ext_resource type="Texture2D" uid="uid://claicnlqru787" path="res://assets/enemies/dashing_enemy.png" id="4_lq5po"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l333l"]
+radius = 22.0227
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bghml"]
+resource_local_to_scene = true
+shader = ExtResource("4_bghml")
+shader_parameter/target_color = Color(1, 1, 1, 1)
+shader_parameter/color_intensity = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dash"]
+radius = 20.0
+
+[node name="DashingEnemy" instance=ExtResource("1_5ipbc")]
+script = ExtResource("1_l333l")
+dash_range = 400.0
+dash_prepare_time = 2.0
+dash_speed = 1000.0
+dash_distance = 1000.0
+dash_damage = 25
+knockback_distance = 50.0
+speed = 80.0
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_l333l")
+
+[node name="Sprite2D" parent="." index="1"]
+material = SubResource("ShaderMaterial_bghml")
+texture = ExtResource("4_lq5po")
+
+[node name="HealthSystem" parent="." index="2"]
+max_health = 60
+
+[node name="DashTimer" type="Timer" parent="." index="3"]
+
+[node name="DashAttackArea" type="Area2D" parent="." index="4"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashAttackArea" index="0"]
+shape = SubResource("CircleShape2D_dash")
