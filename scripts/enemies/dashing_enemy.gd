@@ -45,6 +45,9 @@ func _ready():
 	# Setup ghost timer
 	ghost_timer.wait_time = ghost_interval
 	ghost_timer.timeout.connect(_on_ghost_timer_timeout)
+	
+	# Connect to death signal to cleanup ghosts
+	health_system.died.connect(_on_enemy_died)
 
 func update_ai(delta):
 	if not player:
@@ -172,3 +175,17 @@ func apply_knockback():
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "global_position", knockback_position, 0.4)
 	tween.tween_callback(end_dash)
+
+func cleanup_ghosts():
+	# Immediately remove all active ghosts
+	for ghost in active_ghosts:
+		if ghost and is_instance_valid(ghost):
+			ghost.queue_free()
+	active_ghosts.clear()
+	
+	# Stop ghost timer to prevent new ghosts
+	ghost_timer.stop()
+
+func _on_enemy_died():
+	# Clean up ghosts when enemy dies
+	cleanup_ghosts()
