@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cii7dqbxbrkds" path="res://assets/enemies/shooting_enemy.png" id="4_lq5po"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l333l"]
-radius = 17.0294
+radius = 38.0132
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bghml"]
 resource_local_to_scene = true
@@ -19,7 +19,7 @@ shader_parameter/color_intensity = 1.0
 script = ExtResource("1_l333l")
 shoot_range = 300.0
 shoot_cooldown = 2.0
-stop_distance = 150.0
+stop_distance = 200.0
 bullet_scene = ExtResource("2_qgynv")
 
 [node name="CollisionShape2D" parent="." index="0"]

@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://cjfb0kdsmryb"]
+
+[ext_resource type="PackedScene" uid="uid://qpyt28bmnfkj" path="res://scenes/enemies/base_enemy.tscn" id="1_5ipbc"]
+[ext_resource type="Script" uid="uid://ca0jsquke02ho" path="res://scripts/enemies/cannon_enemy.gd" id="2_cannon"]
+[ext_resource type="PackedScene" uid="uid://cgxuk2rbjvolx" path="res://scenes/enemies/enemy_bullet.tscn" id="3_ov0ih"]
+[ext_resource type="Shader" uid="uid://ct66c7vhhyphg" path="res://assets/shaders/color_change.gdshader" id="4_bghml"]
+[ext_resource type="Texture2D" uid="uid://bb6reflu8t6xr" path="res://assets/enemies/danger_zone.png" id="4_ov0ih"]
+[ext_resource type="Texture2D" uid="uid://cllq501qu0iqg" path="res://assets/enemies/cannon_enemy.png" id="6_ov0ih"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_landing"]
+radius = 63.1269
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cannon"]
+radius = 57.0088
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cannon"]
+resource_local_to_scene = true
+shader = ExtResource("4_bghml")
+shader_parameter/target_color = Color(1, 1, 1, 1)
+shader_parameter/color_intensity = 1.0
+
+[node name="CannonEnemy" instance=ExtResource("1_5ipbc")]
+script = ExtResource("2_cannon")
+spawn_warning_time = 3.0
+landing_damage = 30
+landing_radius = 40.0
+landing_knockback_force = 300.0
+shoot_range = 400.0
+shoot_cooldown = 4.0
+bullet_scene = ExtResource("3_ov0ih")
+speed = 0.0
+
+[node name="LandingArea" type="Area2D" parent="." index="0"]
+collision_layer = 0
+collision_mask = 3
+
+[node name="WarningCircle" type="Sprite2D" parent="LandingArea" index="0"]
+scale = Vector2(0.3125, 0.3125)
+texture = ExtResource("4_ov0ih")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandingArea" index="1"]
+shape = SubResource("CircleShape2D_landing")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("CircleShape2D_cannon")
+
+[node name="Sprite2D" parent="." index="2"]
+material = SubResource("ShaderMaterial_cannon")
+texture = ExtResource("6_ov0ih")
+
+[node name="HealthSystem" parent="." index="3"]
+max_health = 80
+
+[node name="WarningTimer" type="Timer" parent="." index="4"]
+
+[node name="ShootTimer" type="Timer" parent="." index="5"]
+
+[connection signal="body_entered" from="LandingArea" to="." method="_on_landing_area_body_entered"]

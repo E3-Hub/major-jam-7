@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0mxywtnj1svf"]
+
+[ext_resource type="PackedScene" uid="uid://cjfb0kdsmryb" path="res://scenes/enemies/cannon_enemy.tscn" id="1_ftpod"]
+[ext_resource type="Script" uid="uid://c32e8jc8rmew0" path="res://scripts/enemies/bosses/cannon_boss.gd" id="2_tqxf2"]
+[ext_resource type="Texture2D" uid="uid://deqoaxl2vycj3" path="res://assets/enemies/bosses/cannon_boss.png" id="2_yee7a"]
+
+[sub_resource type="Shader" id="Shader_yee7a"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 target_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float color_intensity : hint_range(0.0, 2.0) = 1.0;
+
+void fragment() {
+    vec4 tex_color = texture(TEXTURE, UV);
+
+    // Replace all pixels with target color, keeping original alpha
+    COLOR.rgb = target_color.rgb * color_intensity;
+    COLOR.a = tex_color.a * target_color.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tqxf2"]
+resource_local_to_scene = true
+shader = SubResource("Shader_yee7a")
+shader_parameter/target_color = Color(1, 1, 1, 1)
+shader_parameter/color_intensity = 1.0
+
+[node name="CannonBoss" instance=ExtResource("1_ftpod")]
+script = ExtResource("2_tqxf2")
+spawn_warning_time = 5.0
+landing_damage = 50
+landing_knockback_force = 600.0
+shoot_range = 1000.0
+
+[node name="WarningCircle" parent="LandingArea" index="0"]
+scale = Vector2(0.539062, 0.539062)
+
+[node name="Sprite2D" parent="." index="2"]
+material = SubResource("ShaderMaterial_tqxf2")
+texture = ExtResource("2_yee7a")

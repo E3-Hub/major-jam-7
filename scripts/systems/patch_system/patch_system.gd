@@ -7,7 +7,6 @@ class_name PatchSystem
 @onready var patch_timer: Timer = $PatchTimer
 
 var game_manager: GameManager
-var enemy_spawner: EnemySpawner
 var player: Player
 var patch_count: int = 0
 
@@ -44,7 +43,6 @@ var version_patch: int = 0
 func _ready():
 	# Find game components
 	game_manager = get_tree().get_first_node_in_group("game_manager")
-	enemy_spawner = get_tree().get_first_node_in_group("enemy_spawner")
 	player = get_tree().get_first_node_in_group("player")
 	
 	# Setup patch timer

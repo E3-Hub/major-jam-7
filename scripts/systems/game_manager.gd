@@ -1,8 +1,9 @@
 extends Node
 class_name GameManager
 
+@export var ui_manager: UIManager
+
 @onready var player: Player = get_tree().get_first_node_in_group("player")
-@onready var ui_manager: UIManager = $UIManager
 @onready var patch_system: PatchSystem = $PatchSystem
 
 var game_time: float = 0.0
@@ -12,6 +13,8 @@ signal game_over
 
 func _ready():
 	player.player_died.connect(_on_player_died)
+	ui_manager.health_bar.max_value = player.health_system.max_health
+	ui_manager.health_bar.value = player.health_system.max_health
 	player.health_system.health_changed.connect(_on_player_health_changed)
 	player.experience_system.experience_gained.connect(_on_player_exp_changed)
 	player.experience_system.level_up.connect(_on_player_level_up)
@@ -25,6 +28,8 @@ func _on_player_died():
 	is_game_over = true
 	game_over.emit()
 	ui_manager.show_game_over(game_time)
+	get_tree().paused = true
+
 
 func _on_player_health_changed(current_health: int, max_health: int):
 	ui_manager.update_health(current_health, max_health)
@@ -36,4 +41,5 @@ func _on_player_level_up(new_level: int):
 	ui_manager.update_level(new_level)
 
 func restart_game():
+	get_tree().paused = false
 	get_tree().reload_current_scene()

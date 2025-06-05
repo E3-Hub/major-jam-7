@@ -1,28 +1,36 @@
-[gd_scene load_steps=9 format=3 uid="uid://conoeay4a3lm8"]
+[gd_scene load_steps=13 format=3 uid="uid://conoeay4a3lm8"]
 
 [ext_resource type="PackedScene" uid="uid://btwd2fqncuir3" path="res://scenes/player/player.tscn" id="1_0wkb6"]
-[ext_resource type="Script" uid="uid://cdaxryjcdvn5" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
+[ext_resource type="Script" uid="uid://by2j16rdntyji" path="res://scripts/systems/camera_follow.gd" id="1_qip8x"]
+[ext_resource type="Script" uid="uid://mcvp0d1gqc3j" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
 [ext_resource type="PackedScene" uid="uid://bfmytxo3jyj5e" path="res://scenes/ui/ui_manager.tscn" id="3_f8fyy"]
 [ext_resource type="Script" uid="uid://bbkeof6oeko0o" path="res://scripts/systems/patch_system/patch_system.gd" id="4_tt8nk"]
 [ext_resource type="Script" uid="uid://cikx7f503yit" path="res://scripts/systems/enemy_spawner.gd" id="4_wbupf"]
 [ext_resource type="Script" uid="uid://bbcfj7xr0dfgx" path="res://scripts/systems/skill_card_system/card_system.gd" id="5_6r0uj"]
 [ext_resource type="PackedScene" uid="uid://d2romlyepgwxu" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
+[ext_resource type="PackedScene" uid="uid://dojfb0kdsmryb" path="res://scenes/enemies/dashing_enemy.tscn" id="6_8xk2r"]
+[ext_resource type="PackedScene" uid="uid://cjfb0kdsmryb" path="res://scenes/enemies/cannon_enemy.tscn" id="7_cannon"]
+[ext_resource type="PackedScene" uid="uid://bopl6ffcqw4mr" path="res://scenes/enemies/bosses/dashing_boss.tscn" id="9_85j56"]
+[ext_resource type="PackedScene" uid="uid://cypnige0s0agl" path="res://scenes/enemies/bosses/shooting_boss.tscn" id="9_j0vxu"]
+[ext_resource type="PackedScene" uid="uid://b0mxywtnj1svf" path="res://scenes/enemies/bosses/cannon_boss.tscn" id="10_qip8x"]
 [ext_resource type="Script" uid="uid://bnwk78nk377lk" path="res://scripts/systems/skill_card_system/effect_library.gd" id="6_j0r68"]
 
 [node name="Main" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="Player" parent="." instance=ExtResource("1_0wkb6")]
 
-[node name="GameManager" type="Node" parent="." groups=["game_manager"]]
-script = ExtResource("2_mli2r")
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_qip8x")
 
-[node name="UIManager" parent="GameManager" instance=ExtResource("3_f8fyy")]
+[node name="UIManager" parent="Camera2D" instance=ExtResource("3_f8fyy")]
 offset_left = -800.0
 offset_top = -450.0
 offset_right = -800.0
 offset_bottom = -450.0
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("ui_manager") groups=["game_manager"]]
+script = ExtResource("2_mli2r")
+ui_manager = NodePath("../Camera2D/UIManager")
 
 [node name="PatchSystem" type="Node" parent="GameManager"]
 script = ExtResource("4_tt8nk")
@@ -35,10 +43,19 @@ script = ExtResource("5_6r0uj")
 [node name="EffectLibrary" type="Node" parent="GameManager/CardSystem"]
 script = ExtResource("6_j0r68")
 
-[node name="EnemySpawner" type="Node2D" parent="." groups=["enemy_spawner"]]
+[node name="CardSystem" type="Node" parent="GameManager"]
+script = ExtResource("5_6r0uj")
+
+[node name="EffectLibrary" type="Node" parent="GameManager/CardSystem"]
+script = ExtResource("6_j0r68")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("4_wbupf")
-enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr")])
+enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr"), ExtResource("6_8xk2r"), ExtResource("7_cannon")])
 
-[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
-
-[node name="SpawnWaveTimer" type="Timer" parent="EnemySpawner"]
+[node name="BossSpawner" type="Node2D" parent="."]
+script = ExtResource("4_wbupf")
+enemy_scenes = Array[PackedScene]([ExtResource("9_85j56"), ExtResource("10_qip8x"), ExtResource("9_j0vxu")])
+spawn_interval = 2.0
+spawn_wave_interval = 20.0
+metadata/_custom_type_script = "uid://dhhniimbgha7d"
