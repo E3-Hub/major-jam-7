@@ -101,7 +101,6 @@ func start_dash():
 	dash_attack_area.monitoring = true
 	
 	# Start ghost trail
-	ghost_trail_effect.color = EnemyColorType.get_ghost_color(enemy_color)
 	ghost_trail_effect.start_effect()
 
 func end_dash():

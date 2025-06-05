@@ -7,7 +7,7 @@ class_name CannonEnemy
 @export var landing_knockback_force: float = 300.0
 @export var shoot_range: float = 400.0
 @export var shoot_cooldown: float = 3.0
-@export var heavy_bullet_scene: PackedScene
+@export var bullet_scene: PackedScene
 
 @onready var warning_circle: Node2D = $LandingArea/WarningCircle
 @onready var warning_timer: Timer = $WarningTimer
@@ -75,13 +75,13 @@ func handle_shooting():
 	sprite.rotation = direction_to_player.angle() + PI / 2
 	
 	# Shoot if in range and can shoot
-	if distance_to_player <= shoot_range and can_shoot and heavy_bullet_scene:
+	if distance_to_player <= shoot_range and can_shoot and bullet_scene:
 		shoot_heavy_bullet()
 
 func shoot_heavy_bullet():
 	var direction = (player.global_position - global_position).normalized()
 	
-	var bullet: EnemyBullet = heavy_bullet_scene.instantiate()
+	var bullet: EnemyBullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
 	bullet.setup(global_position, direction)
@@ -195,7 +195,7 @@ func create_shockwave_ring(ring_index: int):
 	ring.scale = Vector2(1.0, 1.0)
 	ring.texture = sprite.texture
 	ring.material = sprite.material.duplicate()
-	ring.material.set_shader_parameter("target_color", EnemyColorType.get_ghost_color(enemy_color))
+	ring.material.set_shader_parameter("target_color", EnemyColorType.get_color(enemy_color))
 	ring.visible = true
 	
 	# Add to scene

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://qpyt28bmnfkj" path="res://scenes/enemies/base_enemy.tscn" id="1_5ipbc"]
 [ext_resource type="Script" uid="uid://ca0jsquke02ho" path="res://scripts/enemies/cannon_enemy.gd" id="2_cannon"]
-[ext_resource type="PackedScene" uid="uid://bgxuk2rbjvolx" path="res://scenes/enemies/heavy_bullet.tscn" id="3_heavy"]
+[ext_resource type="PackedScene" uid="uid://cgxuk2rbjvolx" path="res://scenes/enemies/enemy_bullet.tscn" id="3_ov0ih"]
 [ext_resource type="Shader" uid="uid://ct66c7vhhyphg" path="res://assets/shaders/color_change.gdshader" id="4_bghml"]
 [ext_resource type="Texture2D" uid="uid://bb6reflu8t6xr" path="res://assets/enemies/danger_zone.png" id="4_ov0ih"]
 [ext_resource type="Texture2D" uid="uid://cllq501qu0iqg" path="res://assets/enemies/cannon_enemy.png" id="6_ov0ih"]
@@ -27,7 +27,7 @@ landing_radius = 40.0
 landing_knockback_force = 300.0
 shoot_range = 400.0
 shoot_cooldown = 3.0
-heavy_bullet_scene = ExtResource("3_heavy")
+bullet_scene = ExtResource("3_ov0ih")
 speed = 0.0
 
 [node name="CollisionShape2D" parent="." index="0"]

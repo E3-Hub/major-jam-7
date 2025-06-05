@@ -80,7 +80,6 @@ func handle_dash(delta):
 	if Input.is_action_just_pressed("dash") and _dash_cooldown_timer <= 0:
 		_dash_timer = dash_duration
 		_dash_cooldown_timer = dash_cooldown
-		ghost_trail_effect.color = EnemyColorType.get_ghost_color(current_color)
 		ghost_trail_effect.start_effect()
 		# Dash in the current input direction
 		dash_direction = get_input_direction()

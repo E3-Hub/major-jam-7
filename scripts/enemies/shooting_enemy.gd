@@ -4,6 +4,7 @@ class_name ShootingEnemy
 @export var shoot_range: float = 300.0
 @export var shoot_cooldown: float = 2.0
 @export var stop_distance: float = 200.0
+@export var bullet_scene: PackedScene
 
 @onready var shoot_timer: Timer = $ShootTimer
 
