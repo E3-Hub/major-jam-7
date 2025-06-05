@@ -8,7 +8,7 @@ class_name Player
 @export var dash_direction = Vector2.ZERO
 @export var bullet_scene: PackedScene
 @export var base_shoot_cooldown: float = 0.2
-@export var invincibility_on_damage_duration: float = 2.0 # Duration of invincibility after taking damage
+@export var invincibility_on_damage_duration: float = 1.0 # Duration of invincibility after taking damage
 @export var blink_frequency: float = 0.1 # Time between sprite visibility toggles for blinking
 
 @onready var health_system: HealthSystem = $HealthSystem

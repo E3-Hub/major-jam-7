@@ -30,6 +30,7 @@ shader_parameter/color_intensity = 1.0
 
 [node name="ShootingBoss" instance=ExtResource("1_j4y3o")]
 script = ExtResource("1_4jiwq")
+exp_value = 80
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_k02oh")
@@ -39,3 +40,6 @@ material = SubResource("ShaderMaterial_hggxl")
 position = Vector2(0, -9)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_k02oh")
+
+[node name="HealthSystem" parent="." index="2"]
+max_health = 200
