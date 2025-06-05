@@ -127,6 +127,11 @@ func take_damage(damage: int):
 
 	health_system.take_damage(damage)
 	
+	# Trigger screen shake
+	var camera = get_viewport().get_camera_2d()
+	if camera and camera.has_method("shake_camera"):
+		camera.shake_camera()
+	
 	# Activate invincibility from this damage
 	_damage_invincibility_timer = invincibility_on_damage_duration
 	# Initialize blink timer to start blinking immediately if not already blinking from dash
