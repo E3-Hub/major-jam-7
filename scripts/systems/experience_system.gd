@@ -12,7 +12,7 @@ func _ready():
 	experience_gained.emit(current_experience, experience_to_next_level)
 
 func add_experience(amount: int):
-	current_experience += int(amount * (1 + GameModifiers.experience_modifier))
+	current_experience += int(amount * GameModifiers.experience_modifier)
 	experience_gained.emit(current_experience, experience_to_next_level)
 	
 	while current_experience >= experience_to_next_level:

@@ -6,13 +6,20 @@ class_name BaseEnemy
 @export var bullet_scene: PackedScene
 
 @onready var health_system: HealthSystem = $HealthSystem
+@onready var sprite: Sprite2D = $Sprite2D
 
 var player: Player
 var exp_orb_scene: PackedScene
+var enemy_color: int
 
 signal enemy_died(enemy: BaseEnemy)
 
 func _ready():
+	exp_value = int(exp_value * GameModifiers.experience_modifier)
+	speed *= GameModifiers.enemy_speed_modifier
+	health_system.max_health = int(health_system.max_health * GameModifiers.enemy_health_modifier)
+	health_system.current_health = health_system.max_health
+
 	# Set up collision layers
 	collision_layer = 2 # Enemy layer
 	collision_mask = 1 # Player layer
@@ -29,6 +36,11 @@ func _ready():
 	# Try to load exp orb scene
 	if ResourceLoader.exists("res://scenes/world/exp_orb.tscn"):
 		exp_orb_scene = load("res://scenes/world/exp_orb.tscn")
+
+func setup(color_type: int, p_position: Vector2):
+	enemy_color = color_type
+	sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(enemy_color))
+	global_position = p_position
 
 func _physics_process(delta):
 	if player and health_system.is_alive():
@@ -58,18 +70,3 @@ func drop_experience():
 	get_tree().current_scene.add_child(exp_orb)
 	exp_orb.global_position = global_position
 	exp_orb.setup(exp_value)
-
-# Patch system modifier methods
-func apply_health_modifier(multiplier: float):
-	var old_max = health_system.max_health
-	var health_percentage = health_system.get_health_percentage()
-	
-	health_system.max_health = int(old_max * multiplier)
-	health_system.current_health = int(health_system.max_health * health_percentage)
-	health_system.health_changed.emit(health_system.current_health, health_system.max_health)
-
-func apply_speed_modifier(multiplier: float):
-	speed *= multiplier
-
-func apply_exp_modifier(multiplier: float):
-	exp_value = int(exp_value * multiplier)

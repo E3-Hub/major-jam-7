@@ -12,10 +12,16 @@ class_name Player
 @export var bullet_scene: PackedScene
 @export var base_shoot_cooldown: float = 0.2
 
+@export var player_red_sprite: Texture2D
+@export var player_green_sprite: Texture2D
+@export var player_blue_sprite: Texture2D
+
 @onready var health_system: HealthSystem = $HealthSystem
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
 @onready var shoot_timer: Timer = $ShootTimer
+@onready var sprite: Sprite2D = $Sprite2D
 
+var current_color: int = EnemyColorType.RED
 var can_shoot: bool = true
 @onready var looting: int = 1
 
@@ -35,20 +41,23 @@ func _ready():
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 
+	sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(current_color))
+
 func _physics_process(delta):
 	handle_dash(delta)
 	handle_movement()
 	handle_rotation()
 	handle_shooting()
+	handle_color_cycling()
 
 func handle_movement():
 	dash_speed = speed * 3
 	var input_vector = get_input_direction()
 
 	if is_dashing:
-		velocity = dash_direction.normalized() * dash_speed * (1 + GameModifiers.player_speed_modifier)
+		velocity = dash_direction.normalized() * dash_speed * GameModifiers.player_speed_modifier
 	else:
-		velocity = input_vector.normalized() * speed * (1 + GameModifiers.player_speed_modifier)
+		velocity = input_vector.normalized() * speed * GameModifiers.player_speed_modifier
 
 	move_and_slide()
 
@@ -83,7 +92,6 @@ func get_input_direction() -> Vector2:
 		dir.y += 1
 	return dir
 
-
 func handle_rotation():
 	var mouse_pos = get_global_mouse_position()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
@@ -97,10 +105,10 @@ func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	
-	var bullet: Bullet = bullet_scene.instantiate()
+	var bullet: PlayerBullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
-	bullet.setup(global_position, direction)
+	bullet.setup(global_position, direction, current_color)
 	
 	can_shoot = false
 	shoot_timer.start()
@@ -117,6 +125,14 @@ func collect_experience(amount: int):
 func _on_died():
 	player_died.emit()
 
-# func _on_level_up(new_level: int):
-# 	print("Player leveled up to level ", new_level)
-# 	# Here you can add level up effects like increased stats 
+func _on_level_up(new_level: int):
+	print("Player leveled up to level ", new_level)
+	# Here you can add level up effects like increased stats 
+
+func handle_color_cycling():
+	if Input.is_action_just_pressed("cycle_color_next"):
+		current_color = (current_color + 1) % 3
+		sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(current_color))
+	elif Input.is_action_just_pressed("cycle_color_prev"):
+		current_color = (current_color - 1 + 3) % 3
+		sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(current_color))

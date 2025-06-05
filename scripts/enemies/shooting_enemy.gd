@@ -13,7 +13,7 @@ func _ready():
 	super._ready()
 	
 	# Setup shoot timer
-	shoot_timer.wait_time = shoot_cooldown / (1 + GameModifiers.enemy_fire_rate_modifier)
+	shoot_timer.wait_time = shoot_cooldown / GameModifiers.enemy_fire_rate_modifier
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 
@@ -38,7 +38,7 @@ func update_ai(delta):
 func shoot_at_player():
 	var direction = (player.global_position - global_position).normalized()
 	
-	var bullet: Bullet = bullet_scene.instantiate()
+	var bullet: EnemyBullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
 	bullet.setup(global_position, direction)

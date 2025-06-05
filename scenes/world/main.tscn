@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bbkeof6oeko0o" path="res://scripts/systems/patch_system/patch_system.gd" id="4_tt8nk"]
 [ext_resource type="Script" uid="uid://cikx7f503yit" path="res://scripts/systems/enemy_spawner.gd" id="4_wbupf"]
 [ext_resource type="Script" uid="uid://bbcfj7xr0dfgx" path="res://scripts/systems/skill_card_system/card_system.gd" id="5_6r0uj"]
-[ext_resource type="PackedScene" uid="uid://78kvgyiyo5ih" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
+[ext_resource type="PackedScene" uid="uid://d2romlyepgwxu" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
 [ext_resource type="Script" uid="uid://bnwk78nk377lk" path="res://scripts/systems/skill_card_system/effect_library.gd" id="6_j0r68"]
 
 [node name="Main" type="Node2D"]
@@ -19,10 +19,10 @@
 script = ExtResource("2_mli2r")
 
 [node name="UIManager" parent="GameManager" instance=ExtResource("3_f8fyy")]
-offset_left = -573.0
-offset_top = -322.0
-offset_right = -573.0
-offset_bottom = -322.0
+offset_left = -800.0
+offset_top = -450.0
+offset_right = -800.0
+offset_bottom = -450.0
 
 [node name="PatchSystem" type="Node" parent="GameManager"]
 script = ExtResource("4_tt8nk")
@@ -40,3 +40,5 @@ script = ExtResource("4_wbupf")
 enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr")])
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+
+[node name="SpawnWaveTimer" type="Timer" parent="EnemySpawner"]
