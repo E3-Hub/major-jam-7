@@ -63,22 +63,23 @@ func _on_card_selected(card: Card):
 func get_n_weighted_random_card(all_rarity_combination: Array[RarityCombination], count: int) -> Array[Card]:
 	var selected_cards: Array[Card] = []
 	var sorted_rarity_combination = all_rarity_combination.duplicate()
+	var total_weight = CardLibrary.total_weight_rarity
 	var rarity_from_looting = ((player.looting - 1) * (1 + GameModifiers.looting_modifier)) * CardLibrary.looting_to_rarity_factor
-	print("rarity_from_looting", rarity_from_looting)
+	print("rarity_from_looting [%.2f]%%" % [rarity_from_looting/total_weight*100])
 
 	for i in range(count):
 		var current = 0.0
-		var pick = randf() * CardLibrary.total_weight_rarity
+		var pick = randf() * total_weight
 		var all_stats = CardLibrary.stats.duplicate()
 		for rarity_combination in sorted_rarity_combination:
 			var rarity_values = rarity_combination.rarity
-			print("rarity_values", rarity_values)
+			print("rarity_percent_values [%.2f]%%" % [rarity_values/total_weight*100])
 			rarity_values = rarity_values + rarity_from_looting if rarity_values < CardLibrary.invert_rarity_line else rarity_values - rarity_from_looting
-			print("rarity_shift", rarity_values)
+			print("rarity_percent_shift [%.2f]%%" % [rarity_values/total_weight*100])
 			current += rarity_values
 
 			if pick <= current:
-				print(pick, "<=", current, rarity_combination.rarity_type)
+				print("pickup [%.2f]%% <= current [%.2f]%% Card: [%s]" % [pick/total_weight*100, current/total_weight*100, rarity_combination.rarity_type])
 				var selected_card_title = ""
 				var selected_rarity = rarity_combination.rarity
 				var selected_rarity_type = rarity_combination.rarity_type
