@@ -6,7 +6,7 @@ class_name DashingEnemy
 @export var dash_speed: float = 600.0
 @export var dash_distance: float = 600.0
 @export var dash_damage: int = 25
-@export var knockback_distance: float = 50.0
+@export var reflect_knockback_force: float = 300.0
 @export var ghost_interval: float = 0.05 # Time between ghost spawns
 @export var ghost_fade_time: float = 0.2 # How long ghosts take to fade
 
@@ -24,7 +24,6 @@ var current_state: DashState = DashState.APPROACHING
 var dash_direction: Vector2
 var dash_start_position: Vector2
 var original_speed: float
-var has_hit_player: bool = false
 var active_ghosts: Array[Sprite2D] = []
 
 func _ready():
@@ -107,7 +106,6 @@ func start_dash():
 	dash_direction = (player.global_position - global_position).normalized()
 	current_state = DashState.DASHING
 	dash_start_position = global_position
-	has_hit_player = false
 	
 	# Enable dash attack detection
 	dash_attack_area.monitoring = true
@@ -156,25 +154,10 @@ func _on_ghost_timer_timeout():
 		create_ghost()
 
 func _on_dash_attack_area_body_entered(body):
-	if body is Player and current_state == DashState.DASHING and not has_hit_player:
-		# Deal damage to player
+	if body is Player and current_state == DashState.DASHING:
 		body.take_damage(dash_damage)
-		has_hit_player = true
-		
-		# Apply knockback to self
-		apply_knockback()
-
-func apply_knockback():
-	# Knockback in opposite direction of dash
-	var knockback_direction = - dash_direction
-	var knockback_position = global_position + (knockback_direction * knockback_distance)
-	
-	# Create a tween for smooth knockback with easing (fast start, slow end)
-	var tween = create_tween()
-	tween.set_ease(Tween.EASE_OUT)
-	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(self, "global_position", knockback_position, 0.4)
-	tween.tween_callback(end_dash)
+		end_dash()
+		knockback_system.apply_knockback(-dash_direction * reflect_knockback_force)
 
 func cleanup_ghosts():
 	# Immediately remove all active ghosts

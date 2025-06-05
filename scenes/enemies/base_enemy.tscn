@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://qpyt28bmnfkj"]
+[gd_scene load_steps=6 format=3 uid="uid://qpyt28bmnfkj"]
 
 [ext_resource type="Script" uid="uid://rff1ko82ysgi" path="res://scripts/enemies/base_enemy.gd" id="1_r5xb8"]
 [ext_resource type="Shader" uid="uid://ct66c7vhhyphg" path="res://assets/shaders/color_change.gdshader" id="2_lkvl6"]
 [ext_resource type="Script" uid="uid://cli6kjrioa6kv" path="res://scripts/systems/health_system.gd" id="3_n763p"]
+[ext_resource type="Script" uid="uid://ca8587uneoa35" path="res://scripts/systems/knockback_system.gd" id="4_n763p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ylyo2"]
 resource_local_to_scene = true
@@ -11,6 +12,7 @@ shader_parameter/target_color = Color(1, 1, 1, 1)
 shader_parameter/color_intensity = 1.0
 
 [node name="BaseEnemy" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_r5xb8")
 metadata/_custom_type_script = "uid://rff1ko82ysgi"
 
@@ -22,3 +24,7 @@ material = SubResource("ShaderMaterial_ylyo2")
 [node name="HealthSystem" type="Node" parent="."]
 script = ExtResource("3_n763p")
 metadata/_custom_type_script = "uid://cli6kjrioa6kv"
+
+[node name="KnockbackSystem" type="Node" parent="."]
+script = ExtResource("4_n763p")
+metadata/_custom_type_script = "uid://ca8587uneoa35"

@@ -20,6 +20,7 @@ class_name Player
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var knockback_system: KnockbackSystem = $KnockbackSystem
 
 var current_color: int = EnemyColorType.RED
 var can_shoot: bool = true
@@ -27,10 +28,6 @@ var can_shoot: bool = true
 signal player_died
 
 func _ready():
-	# Set up collision layers
-	collision_layer = 1 # Player layer
-	collision_mask = 2 # Enemy layer
-	
 	# Connect signals
 	health_system.died.connect(_on_died)
 	experience_system.level_up.connect(_on_level_up)
@@ -44,6 +41,7 @@ func _ready():
 
 func _physics_process(delta):
 	handle_dash(delta)
+	knockback_system.handle_knockback(delta)
 	handle_movement()
 	handle_rotation()
 	handle_shooting()
@@ -57,7 +55,10 @@ func handle_movement():
 		velocity = dash_direction.normalized() * dash_speed * GameModifiers.player_speed_modifier
 	else:
 		velocity = input_vector.normalized() * speed * GameModifiers.player_speed_modifier
-
+	
+	# Apply knockback on top of normal movement
+	velocity += knockback_system.get_knockback_velocity()
+	
 	move_and_slide()
 
 func handle_dash(delta):
@@ -135,3 +136,6 @@ func handle_color_cycling():
 	elif Input.is_action_just_pressed("cycle_color_prev"):
 		current_color = (current_color - 1 + 3) % 3
 		sprite.material.set_shader_parameter("target_color", EnemyColorType.get_color(current_color))
+
+func apply_knockback(force: Vector2):
+	knockback_system.apply_knockback(force)

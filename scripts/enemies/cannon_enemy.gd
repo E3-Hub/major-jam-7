@@ -4,11 +4,12 @@ class_name CannonEnemy
 @export var spawn_warning_time: float = 3.0
 @export var landing_damage: int = 30
 @export var landing_radius: float = 40.0
+@export var landing_knockback_force: float = 300.0
 @export var shoot_range: float = 400.0
 @export var shoot_cooldown: float = 3.0
 @export var heavy_bullet_scene: PackedScene
 
-@onready var warning_circle: Node2D = $WarningCircle
+@onready var warning_circle: Node2D = $LandingArea/WarningCircle
 @onready var warning_timer: Timer = $WarningTimer
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var landing_area: Area2D = $LandingArea
@@ -24,7 +25,7 @@ var can_shoot: bool = false
 var drop_start_scale: Vector2 = Vector2(0.1, 0.1)
 var current_pulse_tween: Tween
 var base_pulse_duration: float = 1.0 # Slowest pulse duration
-var min_pulse_duration: float = 0.05 # Fastest pulse duration
+var min_pulse_duration: float = 0.1 # Fastest pulse duration
 
 func _ready():
 	super._ready()
@@ -53,8 +54,6 @@ func _ready():
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	
-	# Setup landing area for damage detection
-	landing_area.body_entered.connect(_on_landing_area_body_entered)
 	landing_area.monitoring = false # Only monitor during landing
 	
 	# Start continuous warning pulse animation
@@ -106,9 +105,6 @@ func _on_warning_timeout():
 	# Enable landing damage detection
 	landing_area.monitoring = true
 	
-	# Check for players already in the landing area
-	check_landing_damage()
-	
 	# Create drop animation
 	var tween = create_tween()
 	tween.set_parallel(true) # Allow multiple properties to animate simultaneously
@@ -119,29 +115,29 @@ func _on_warning_timeout():
 	tween.set_trans(Tween.TRANS_BACK)
 	
 	# When drop animation completes, become active and create shockwave
-	tween.tween_callback(func():
-		create_shockwave_ripples()
-		current_state = CannonState.ACTIVE
-		landing_area.monitoring = false # Disable landing damage after drop
-		can_shoot = true # Enable shooting when active
-	)
-
-func check_landing_damage():
-	# Check for any bodies already overlapping the landing area
-	var overlapping_bodies = landing_area.get_overlapping_bodies()
-	for body in overlapping_bodies:
-		if body is Player and current_state == CannonState.DROPPING:
-			# Deal landing damage to player
-			body.take_damage(landing_damage)
-			break # Only damage once
+	await tween.finished
+	create_shockwave_ripples()
+	current_state = CannonState.ACTIVE
+	landing_area.monitoring = false # Disable landing damage after drop
+	can_shoot = true # Enable shooting when active
 
 func _on_landing_area_body_entered(body):
-	if body is Player and current_state == CannonState.DROPPING:
-		# Deal damage to player
+	if current_state == CannonState.DROPPING and body != self:
+		# Deal damage and knockback to other enemies
 		body.take_damage(landing_damage)
+		apply_knockback_to_target(body)
 
 func _on_shoot_timer_timeout():
 	can_shoot = true
+
+func apply_knockback_to_target(target):
+	# Calculate knockback direction from cannon to target
+	var knockback_direction = (target.global_position - global_position).normalized()
+	
+	if target is Player:
+		target.apply_knockback(knockback_direction * landing_knockback_force)
+	elif target is BaseEnemy:
+		target.apply_knockback(knockback_direction * landing_knockback_force)
 
 # Override move_towards_player to make cannon stationary
 func move_towards_player(delta):
@@ -183,8 +179,8 @@ func update_pulse_continuously():
 
 func create_shockwave_ripples():
 	# Create multiple expanding ripple rings
-	var num_rings = 4
-	var ring_delay = 0.2 # Delay between each ring
+	var num_rings = 2
+	var ring_delay = 0.1 # Delay between each ring
 	
 	for i in range(num_rings):
 		# Create delayed ring spawn
@@ -210,16 +206,15 @@ func create_shockwave_ring(ring_index: int):
 	ring_tween.set_parallel(true)
 	
 	# Expand the ring
-	var shockwave_final_scale = 1.2 + (ring_index * 0.2) # Each ring expands to different size
-	ring_tween.tween_property(ring, "scale", Vector2(shockwave_final_scale, shockwave_final_scale), 2.0)
+	var shockwave_final_scale = 1.3 + (ring_index * 0.3) # Each ring expands to different size
+	ring_tween.tween_property(ring, "scale", Vector2(shockwave_final_scale, shockwave_final_scale), 0.2)
 	ring_tween.set_ease(Tween.EASE_OUT)
 	ring_tween.set_trans(Tween.TRANS_CUBIC)
 	
 	# Fade out the ring
-	ring_tween.tween_property(ring, "material:shader_parameter/target_color:a", 0.0, 2.0)
+	ring_tween.tween_property(ring, "material:shader_parameter/target_color:a", 0.0, 0.2)
 	ring_tween.set_ease(Tween.EASE_OUT)
-
-	ring_tween.tween_callback(func():
-		if ring and is_instance_valid(ring):
-			ring.queue_free()
-	)
+	
+	await ring_tween.finished
+	if ring and is_instance_valid(ring):
+		ring.queue_free()

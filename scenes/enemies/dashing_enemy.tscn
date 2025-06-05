@@ -15,7 +15,7 @@ shader_parameter/target_color = Color(1, 1, 1, 1)
 shader_parameter/color_intensity = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dash"]
-radius = 20.0
+radius = 24.0
 
 [node name="DashingEnemy" instance=ExtResource("1_5ipbc")]
 script = ExtResource("1_l333l")
@@ -24,7 +24,7 @@ dash_prepare_time = 2.0
 dash_speed = 600.0
 dash_distance = 600.0
 dash_damage = 25
-knockback_distance = 50.0
+reflect_knockback_force = 300.0
 ghost_interval = 0.05
 ghost_fade_time = 0.2
 speed = 80.0
