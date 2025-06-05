@@ -29,7 +29,7 @@ signal player_died
 func _ready():
 	# Set up collision layers
 	collision_layer = 1 # Player layer
-	collision_mask = 0 # Enemy layer
+	collision_mask = 2 # Enemy layer
 	
 	# Connect signals
 	health_system.died.connect(_on_died)

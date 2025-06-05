@@ -22,7 +22,7 @@ func _ready():
 
 	# Set up collision layers
 	collision_layer = 2 # Enemy layer
-	collision_mask = 0 # Player layer
+	collision_mask = 1 # Player layer
 	
 	# Connect health system
 	health_system.died.connect(_on_died)

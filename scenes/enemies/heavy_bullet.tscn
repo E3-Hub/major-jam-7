@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgxuk2rbjvolx"]
+
+[ext_resource type="PackedScene" uid="uid://cgxuk2rbjvolx" path="res://scenes/enemies/enemy_bullet.tscn" id="1_8gdk0"]
+[ext_resource type="Script" path="res://scripts/enemies/heavy_bullet.gd" id="2_heavy"]
+
+[node name="HeavyBullet" instance=ExtResource("1_8gdk0")]
+script = ExtResource("2_heavy") 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://conoeay4a3lm8"]
+[gd_scene load_steps=9 format=3 uid="uid://conoeay4a3lm8"]
 
 [ext_resource type="PackedScene" uid="uid://btwd2fqncuir3" path="res://scenes/player/player.tscn" id="1_0wkb6"]
 [ext_resource type="Script" uid="uid://mcvp0d1gqc3j" path="res://scripts/systems/game_manager.gd" id="2_mli2r"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dhhniimbgha7d" path="res://scripts/systems/enemy_spawner.gd" id="4_wbupf"]
 [ext_resource type="PackedScene" uid="uid://d2romlyepgwxu" path="res://scenes/enemies/shooting_enemy.tscn" id="5_7tdlr"]
 [ext_resource type="PackedScene" uid="uid://dojfb0kdsmryb" path="res://scenes/enemies/dashing_enemy.tscn" id="6_8xk2r"]
+[ext_resource type="PackedScene" uid="uid://cjfb0kdsmryb" path="res://scenes/enemies/cannon_enemy.tscn" id="7_cannon"]
 
 [node name="Main" type="Node2D"]
 
@@ -30,7 +31,7 @@ script = ExtResource("4_tt8nk")
 
 [node name="EnemySpawner" type="Node2D" parent="." groups=["enemy_spawner"]]
 script = ExtResource("4_wbupf")
-enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr"), ExtResource("6_8xk2r")])
+enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr"), ExtResource("6_8xk2r"), ExtResource("7_cannon")])
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
 

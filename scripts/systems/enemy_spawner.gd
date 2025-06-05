@@ -4,7 +4,8 @@ class_name EnemySpawner
 @export var enemy_scenes: Array[PackedScene] = []
 @export var spawn_interval: float = 1.0
 @export var spawn_wave_interval: float = 15.0
-@export var spawn_distance: float = 100.0
+@export var spawn_outside_margin: float = 100.0
+@export var spawn_inside_margin: float = 100.0
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var spawn_wave_timer: Timer = $SpawnWaveTimer
@@ -44,7 +45,14 @@ func spawn_enemy():
 	# Choose random enemy type
 	var enemy_scene = enemy_scenes[randi() % enemy_scenes.size()]
 	var enemy: BaseEnemy = enemy_scene.instantiate()
-	var spawn_pos = get_spawn_position()
+	
+	# Check if it's a CannonEnemy for special spawn handling
+	var spawn_pos: Vector2
+	if enemy is CannonEnemy:
+		spawn_pos = get_cannon_spawn_position()
+	else:
+		spawn_pos = get_spawn_position()
+	
 	enemy.global_position = spawn_pos
 	
 	# Connect enemy death signal
@@ -64,16 +72,34 @@ func get_spawn_position() -> Vector2:
 	
 	match current_spawn_side:
 		0: # Top
-			spawn_pos = Vector2(randf_range(0, screen_size.x), -spawn_distance)
+			spawn_pos = Vector2(randf_range(0, screen_size.x), -spawn_outside_margin)
 		1: # Right
-			spawn_pos = Vector2(screen_size.x + spawn_distance, randf_range(0, screen_size.y))
+			spawn_pos = Vector2(screen_size.x + spawn_outside_margin, randf_range(0, screen_size.y))
 		2: # Bottom
-			spawn_pos = Vector2(randf_range(0, screen_size.x), screen_size.y + spawn_distance)
+			spawn_pos = Vector2(randf_range(0, screen_size.x), screen_size.y + spawn_outside_margin)
 		3: # Left
-			spawn_pos = Vector2(-spawn_distance, randf_range(0, screen_size.y))
+			spawn_pos = Vector2(-spawn_outside_margin, randf_range(0, screen_size.y))
 	
 	# Convert to world position relative to camera
 	var camera = get_viewport().get_camera_2d()
+	if camera:
+		spawn_pos += camera.global_position - screen_size / 2
+	
+	return spawn_pos
+
+func get_cannon_spawn_position() -> Vector2:
+	# Spawn cannon enemies within the visible screen area
+	var viewport = get_viewport()
+	var screen_size = viewport.get_visible_rect().size
+	var camera = get_viewport().get_camera_2d()
+	
+	# Create a margin so cannons don't spawn too close to screen edges
+	var spawn_pos = Vector2(
+		randf_range(spawn_inside_margin, screen_size.x - spawn_inside_margin),
+		randf_range(spawn_inside_margin, screen_size.y - spawn_inside_margin)
+	)
+	
+	# Convert to world position relative to camera
 	if camera:
 		spawn_pos += camera.global_position - screen_size / 2
 	
