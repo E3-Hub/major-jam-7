@@ -112,7 +112,7 @@ static var boss_cards: Array[Card] = [
 			{
 				"increase_damage": 2,
 				"increase_health": 7,
-				"movement_speed": 3,
+				"increase_movement_speed": 3,
 			}
 		),
 		Card.new(
