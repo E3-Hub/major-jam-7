@@ -52,12 +52,12 @@ static var card_values_range = {
 		"percent_range": [5, 50],
 	},
 	"looting": {
-		"amount_range": [1, 5],
+		"amount_range": [1, 7],
 		"percent_range": [1, 30],
 	},
 	"health": {
-		"amount_range": [5, 20],
-		"percent_range": [5, 20],
+		"amount_range": [5, 40],
+		"percent_range": [5, 40],
 	},
 	"max_health": {
 		"amount_range": [5, 20],
@@ -88,7 +88,7 @@ static var boss_cards: Array[Card] = [
 			0.5,
 			"",
 			" multishot +1 \n health +5",
-			"The god of greed takes pity on you.",
+			"One pull of the trigger releases a storm.",
 			{
 				"increase_multishot": 1,
 				"increase_health": 5,
@@ -98,7 +98,7 @@ static var boss_cards: Array[Card] = [
 			0.5,
 			"",
 			" piercing_through +1 \n health +5",
-			"The god of greed takes pity on you.",
+			"Your shots can pierce through enemies.",
 			{
 				"increase_piercing_through": 1,
 				"increase_health": 5,
@@ -107,18 +107,19 @@ static var boss_cards: Array[Card] = [
 		Card.new(
 			1,
 			"",
-			" damage +5 \n health +5",
-			"The god of greed takes pity on you.",
+			" damage +2 \n health +7 \n movement_speed +3 ",
+			"Vitality surges within you.",
 			{
-				"increase_damage": 5,
-				"increase_health": 5,
+				"increase_damage": 2,
+				"increase_health": 7,
+				"movement_speed": 3,
 			}
 		),
 		Card.new(
 			1,
 			"",
 			" damage +20% \n health +5",
-			"The god of greed takes pity on you.",
+			"A surge of power flows through your arms.",
 			{
 				"increase_damage_percent": 20,
 				"increase_health": 5,
