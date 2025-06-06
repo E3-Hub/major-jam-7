@@ -31,6 +31,7 @@ spawn_warning_time = 5.0
 landing_damage = 50
 landing_knockback_force = 600.0
 shoot_range = 1000.0
+exp_value = 120
 
 [node name="WarningCircle" parent="LandingArea" index="0"]
 scale = Vector2(0.539062, 0.539062)
@@ -38,3 +39,6 @@ scale = Vector2(0.539062, 0.539062)
 [node name="Sprite2D" parent="." index="2"]
 material = SubResource("ShaderMaterial_tqxf2")
 texture = ExtResource("2_yee7a")
+
+[node name="HealthSystem" parent="." index="3"]
+max_health = 480

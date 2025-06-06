@@ -157,8 +157,8 @@ static var patch_types: Array[PatchType] = [
 		["Fixed experience exploit", "Leveling too fast", "Progression rebalanced"],
 		["Reduced EXP gain by {value}%", "Experience rewards decreased by {value}%", "Leveling slowed by {value}%"],
 		"experience",
-		-0.1,
-		-0.2
+		-0.2,
+		-0.1
 	),
 	PatchType.new(
 		"match_color_damage_buff",
@@ -173,8 +173,8 @@ static var patch_types: Array[PatchType] = [
 		["Players complained about match color damage", "Match color damage was too high", "Combat felt unbalanced"],
 		["Reduced match color damage by {value}%", "Match color damage nerfed by {value}%", "Match color damage decreased by {value}%"],
 		"match_color_damage",
-		-0.1,
-		-0.2
+		-0.2,
+		-0.1
 	),
 	PatchType.new(
 		"patch_power_increase",
@@ -183,5 +183,21 @@ static var patch_types: Array[PatchType] = [
 		"patch_power",
 		0.2,
 		0.4
+	),
+	PatchType.new(
+		"enemy_size_increase",
+		["Enemies were too small", "Enemy size was too low", "Combat felt unbalanced"],
+		["Increased enemy size by {value}%", "Enemy size boosted by {value}%", "Enemies now {value}% larger"],
+		"enemy_size",
+		0.1,
+		0.2
+	),
+	PatchType.new(
+		"enemy_size_decrease",
+		["Enemies were too large", "Enemy size was too high", "Combat felt unbalanced"],
+		["Reduced enemy size by {value}%", "Enemy size nerfed by {value}%", "Enemies now {value}% smaller"],
+		"enemy_size",
+		-0.2,
+		-0.1
 	),
 ]

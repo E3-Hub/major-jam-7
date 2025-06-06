@@ -37,6 +37,10 @@ var bullet_chaos_mode: bool = false
 # Patch power modifiers
 var patch_power_modifier: float = 1.0
 
+var enemy_size_modifier: float = 1.0
+
+var enemy_type_level: int = 1
+
 # Reset all modifiers to default
 func reset_all_modifiers():
 	player_damage_modifier = 1.0
@@ -55,3 +59,5 @@ func reset_all_modifiers():
 	looting_modifier = 1.0
 	bullet_chaos_mode = false
 	patch_power_modifier = 1.0
+	enemy_size_modifier = 1.0
+	enemy_type_level = 1

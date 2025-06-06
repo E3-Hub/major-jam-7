@@ -18,11 +18,13 @@
 [node name="Main" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_0wkb6")]
+z_index = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("1_qip8x")
 
 [node name="UIManager" parent="Camera2D" instance=ExtResource("3_f8fyy")]
+z_index = 2
 offset_left = -800.0
 offset_top = -450.0
 offset_right = -800.0
@@ -46,9 +48,10 @@ script = ExtResource("6_j0r68")
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("4_wbupf")
 enemy_scenes = Array[PackedScene]([ExtResource("5_7tdlr"), ExtResource("6_8xk2r"), ExtResource("7_cannon")])
+spawn_interval = 2.0
 
 [node name="BossSpawner" type="Node2D" parent="."]
 script = ExtResource("4_wbupf")
-enemy_scenes = Array[PackedScene]([ExtResource("9_85j56"), ExtResource("10_qip8x"), ExtResource("9_j0vxu")])
-spawn_interval = 2.0
+enemy_scenes = Array[PackedScene]([ExtResource("9_j0vxu"), ExtResource("9_85j56"), ExtResource("10_qip8x")])
+spawn_interval = 20.0
 spawn_wave_interval = 20.0

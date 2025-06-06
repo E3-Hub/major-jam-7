@@ -1,8 +1,8 @@
 extends Area2D
 class_name ExpOrb
 
-@export var exp_value: int = 10
 @export var move_speed: float = 400.0
+var exp_value: int
 
 var player: Player
 var is_being_collected: bool = false
@@ -30,6 +30,7 @@ func _physics_process(delta):
 
 func setup(value: int):
 	exp_value = value
+	scale *= sqrt(exp_value / 10.0)
 
 func _on_body_entered(body):
 	if body is Player:
