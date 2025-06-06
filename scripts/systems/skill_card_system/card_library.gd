@@ -30,7 +30,7 @@ static func get_total_weight_rarity() -> float:
 		total += r.rarity
 	return total
 static var total_weight_rarity = get_total_weight_rarity()
-static var looting_to_rarity_factor: float = (get_rarity_from_equation(6)/(8*13.0))
+static var looting_to_rarity_factor: float = get_rarity_from_equation(6)/3
 static var invert_rarity_line: float = total_weight_rarity/rarity_size   # at midle rarity (between rare and epic)
 static func get_rarity_from_equation(index: int) -> float:
 	var max_drop_rate_percent = 60  # if rarity_drop_rate = 1
@@ -53,7 +53,7 @@ static var card_values_range ={
 	},
 	"looting":{
 		"amount_range": [1, 13],
-		"percent_range": [2, 30],
+		"percent_range": [1, 30],
 	},
 	"health":{
 		"amount_range": [5,90],
@@ -64,7 +64,7 @@ static var card_values_range ={
 		"percent_range": [5, 50],
 	},
 	"EXP_gain":{
-		"amount_range": [1,20],
+		"amount_range": [1,10],
 		"percent_range": [5, 100],
 	},
 	"fire_rate_rpm":{
@@ -72,29 +72,6 @@ static var card_values_range ={
 		"percent_range": [30, 300],
 	},
 }
-# test data
-static var all_cards: Array[Card] = [
-		Card.new(
-			6.0/21,
-			"Common",
-			" looting +(1) \n health +(5)",
-			"The god of greed takes pity on you.",
-			{
-				"increase_looting": 1,
-				"increase_health": 5,
-			}
-		),
-		Card.new(
-			5.0/21,
-			"Uncommon",
-			" looting +(4) \n health +(5)",
-			"The god of greed shows mercy upon you.",
-			{
-				"increase_looting": 4,
-				"increase_health": 5,
-			}
-		),
-]
 
 static var boss_cards: Array[Card] = [
 		Card.new(
@@ -104,6 +81,26 @@ static var boss_cards: Array[Card] = [
 			"The god of greed takes pity on you.",
 			{
 				"increase_looting": 1,
+				"increase_health": 5,
+			}
+		),
+		Card.new(
+			6.0/21,
+			"Boss",
+			" looting +(1) \n health +(5)",
+			"The god of greed takes pity on you.",
+			{
+				"increase_looting": 1,
+				"increase_health": 5,
+			}
+		),
+		Card.new(
+			5.0/21,
+			"Boss",
+			" looting +(4) \n health +(5)",
+			"The god of greed shows mercy upon you.",
+			{
+				"increase_looting": 4,
 				"increase_health": 5,
 			}
 		),
