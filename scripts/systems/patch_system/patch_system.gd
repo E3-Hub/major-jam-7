@@ -64,7 +64,6 @@ func generate_random_patches() -> Array[PatchData]:
 	for i in int(2 * GameModifiers.patch_power_modifier):
 		if patch_types_left.size() == 0:
 			patch_types_left = PatchType.patch_types
-			# End game -> go end game content
 		var patch_type: PatchType = patch_types_left[randi() % patch_types_left.size()]
 		patch_types_left = patch_types_left.filter(func(p): return p.group != patch_type.group)
 	
