@@ -32,6 +32,7 @@ landing_damage = 50
 landing_knockback_force = 600.0
 shoot_range = 1000.0
 exp_value = 120
+is_boss = true
 
 [node name="WarningCircle" parent="LandingArea" index="0"]
 scale = Vector2(0.539062, 0.539062)

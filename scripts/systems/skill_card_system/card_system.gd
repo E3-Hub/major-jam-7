@@ -15,7 +15,6 @@ func _ready():
 	game_manager = get_tree().get_first_node_in_group("game_manager")
 	player = get_tree().get_first_node_in_group("player")
 	player.experience_system.level_up.connect(generate_random_card_choices)
-	# boss.enemy_died.connect(random_drop_boss_card)
 
 
 func generate_random_card_choices(new_level: int):
@@ -28,14 +27,11 @@ func generate_random_card_choices(new_level: int):
 
 
 func random_drop_boss_card():
-	var random_chance = randf()
-	var percent_drop_boss = 5.0
-	if random_chance <= percent_drop_boss/100:
-		current_choices.clear()
-		var all_boss_cards: Array[Card] = CardLibrary.boss_cards
-		current_choices = pick_n_random_boss_cards(all_boss_cards, boss_card_number)
-		print("boss card system trigger", current_choices)
-		game_manager.ui_manager.show_card_choices(current_choices, _on_card_selected)
+	current_choices.clear()
+	var all_boss_cards: Array[Card] = CardLibrary.boss_cards
+	current_choices = pick_n_random_boss_cards(all_boss_cards, boss_card_number)
+	print("boss card system trigger", current_choices)
+	game_manager.ui_manager.show_card_choices(current_choices, _on_card_selected)
 
 
 func _on_card_selected(card: Card):
@@ -44,7 +40,7 @@ func _on_card_selected(card: Card):
 	for effect_name in card.effects:
 		print(effect_name)
 		var value = card.effects[effect_name]
-		var bonus_value = randi() % 3
+		var bonus_value = 0
 		var show_effect_name = effect_name
 		var show_unit = ""
 		if "_percent" in effect_name:
@@ -131,6 +127,8 @@ func get_n_weighted_random_card(all_rarity_combination: Array[RarityCombination]
 					var max_val: float
 					var min_val: float
 					var step: float = (values_range[1] - values_range[0]) / all_rarity_combination.size()
+					if random_stats == "multishot" or random_stats == "piercing_through":
+						increase_or_decrease = "increase"
 					if increase_or_decrease == "increase":
 						show_symbol = "+"
 						max_val = values_range[0] + step * CardLibrary.values_increase_boundary_ratio_factor[selected_rarity_type]
@@ -140,7 +138,7 @@ func get_n_weighted_random_card(all_rarity_combination: Array[RarityCombination]
 						max_val = values_range[0] + step * CardLibrary.values_decrease_boundary_ratio_factor[selected_rarity_type]
 						min_val = max_val - step
 					value = randi() % int(floor(max_val) - ceil(min_val) + 1) + int(ceil(min_val))
-					selected_card_title += "%s %s(%s)%s\n" % [random_stats, show_symbol, value, show_unit]
+					selected_card_title += "%s %s%s%s\n" % [random_stats, show_symbol, value, show_unit]
 					var descriptions_list: Array = CardLibrary.descriptions[increase_or_decrease + "_" + random_stats]
 					random_descriptions.append(descriptions_list[randi() % descriptions_list.size()])
 					selected_effects[increase_or_decrease + "_" + show_stats_type] = value

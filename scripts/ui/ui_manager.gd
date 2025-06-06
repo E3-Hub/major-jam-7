@@ -85,7 +85,7 @@ func show_card_choices(cards: Array[Card], callback: Callable):
 
 	for card in cards:
 		var btn: Button = Button.new()
-		btn.text = "%s%s[%.2f]" % [card.title, card.rarity_type, card.rarity]
+		btn.text = "%s%s" % [card.title, card.rarity_type]
 
 		btn.connect("pressed", func():
 			card_container.hide()
@@ -110,4 +110,3 @@ func show_effect_panel(title: String, status: String):
 	
 	await get_tree().create_timer(1).timeout
 	effect_panel.visible = false
-	

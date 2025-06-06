@@ -3,7 +3,7 @@ class_name Player
 
 var dash_speed_speed_ratio: float = 5.0
 @export var speed: float = 300.0
-@export var dash_speed: float = speed*dash_speed_speed_ratio
+@export var dash_speed: float = speed * dash_speed_speed_ratio
 @export var dash_duration: float = 0.1
 @export var dash_cooldown: float = 1.0
 @export var dash_direction = Vector2.ZERO
@@ -18,7 +18,6 @@ var dash_speed_speed_ratio: float = 5.0
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var knockback_system: KnockbackSystem = $KnockbackSystem
 @onready var ghost_trail_effect: GhostTrailEffect = $GhostTrailEffect
-var bullet: PlayerBullet
 
 var _dash_timer: float = 0.0
 var _dash_cooldown_timer: float = 0.0
@@ -111,12 +110,30 @@ func handle_shooting():
 
 func shoot():
 	var mouse_pos = get_global_mouse_position()
-	var direction = (mouse_pos - global_position).normalized()
+	var base_direction = (mouse_pos - global_position).normalized()
 	
-	bullet = bullet_scene.instantiate()
-	get_tree().current_scene.add_child(bullet)
+	var bullet_count = GameModifiers.player_multishot
 	
-	bullet.setup(global_position, direction, current_color)
+	for i in bullet_count:
+		var bullet: PlayerBullet = bullet_scene.instantiate()
+		get_tree().current_scene.add_child(bullet)
+		
+		var bullet_direction: Vector2
+		
+		if bullet_count == 1:
+			# Single bullet: just apply base shooting angle modifier
+			bullet_direction = base_direction.rotated(deg_to_rad(GameModifiers.shooting_angle))
+		else:
+			# Multiple bullets: calculate spread
+			var total_spread = deg_to_rad(GameModifiers.multishot_shooting_angle)
+			var angle_step = total_spread / max(1, bullet_count - 1)
+			var start_angle = - total_spread / 2
+			var angle_offset = start_angle + (angle_step * i) + deg_to_rad(GameModifiers.shooting_angle)
+			bullet_direction = base_direction.rotated(angle_offset)
+		
+		bullet.setup(global_position, bullet_direction, current_color)
+		bullet.damage += GameModifiers.player_damage_additional
+
 	
 	can_shoot = false
 	shoot_timer.start()

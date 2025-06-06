@@ -200,4 +200,12 @@ static var patch_types: Array[PatchType] = [
 		-0.2,
 		-0.1
 	),
+	PatchType.new(
+		"shooting_angle",
+		["Reworked aiming system"],
+		["I don't know if it work or not ???"],
+		"shooting_angle",
+		- PI / 2,
+		PI / 2
+	),
 ]

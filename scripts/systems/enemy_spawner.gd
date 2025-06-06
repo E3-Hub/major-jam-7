@@ -6,6 +6,7 @@ class_name EnemySpawner
 @export var spawn_wave_interval: float = 15.0
 @export var spawn_outside_margin: float = 100.0
 @export var spawn_inside_margin: float = 100.0
+@export var card_system: CardSystem
 
 var spawn_timer: Timer
 var spawn_wave_timer: Timer
@@ -68,6 +69,8 @@ func spawn_enemy():
 
 	enemy.setup(current_spawn_color)
 
+	spawn_timer.wait_time = spawn_interval / GameModifiers.enemy_spawn_rate_modifier
+
 func get_spawn_position() -> Vector2:
 	# Get screen size
 	var viewport = get_viewport()
@@ -114,5 +117,5 @@ func _on_player_level_up(new_level: int):
 	print("Enemy spawner: Player reached level ", new_level, ". Increasing difficulty!")
 
 func _on_enemy_died(enemy: BaseEnemy):
-	# Handle enemy death if needed
-	pass
+	if enemy.is_boss:
+		card_system.random_drop_boss_card()

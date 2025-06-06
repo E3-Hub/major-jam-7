@@ -139,3 +139,5 @@ func apply_patch_effect(patch: PatchData):
 			GameModifiers.enemy_size_modifier += patch.value
 		"enemy_type_level":
 			GameModifiers.enemy_type_level += 1
+		"shooting_angle":
+			GameModifiers.shooting_angle += patch.value

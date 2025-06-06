@@ -41,5 +41,6 @@ func _on_player_level_up(new_level: int):
 	ui_manager.update_level(new_level)
 
 func restart_game():
+	GameModifiers.reset_all_modifiers()
 	get_tree().paused = false
 	get_tree().reload_current_scene()

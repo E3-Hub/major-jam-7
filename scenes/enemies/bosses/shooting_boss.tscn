@@ -31,6 +31,7 @@ shader_parameter/color_intensity = 1.0
 [node name="ShootingBoss" instance=ExtResource("1_j4y3o")]
 script = ExtResource("1_4jiwq")
 exp_value = 80
+is_boss = true
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("CircleShape2D_k02oh")

@@ -16,6 +16,11 @@ var bullet_speed_modifier: float = 1.0
 # Combat modifiers
 var player_fire_rate_modifier: float = 1.0
 var enemy_fire_rate_modifier: float = 1.0
+var player_multishot: int = 1
+var player_piercing_through: int = 1
+var multishot_shooting_angle: float = 30.0
+var shooting_angle: float = 0.0
+var player_damage_additional: int = 0
 
 # Spawn modifiers
 var enemy_spawn_rate_modifier: float = 1.0
@@ -38,7 +43,6 @@ var bullet_chaos_mode: bool = false
 var patch_power_modifier: float = 1.0
 
 var enemy_size_modifier: float = 1.0
-
 var enemy_type_level: int = 1
 
 # Reset all modifiers to default
@@ -55,9 +59,15 @@ func reset_all_modifiers():
 	enemy_spawn_distance_modifier = 1.0
 	experience_modifier = 1.0
 	enemy_health_modifier = 1.0
-	player_health_modifier =1.0
+	player_health_modifier = 1.0
 	looting_modifier = 1.0
 	bullet_chaos_mode = false
 	patch_power_modifier = 1.0
 	enemy_size_modifier = 1.0
 	enemy_type_level = 1
+	multishot_shooting_angle = 0.0
+	player_multishot = 1
+	player_piercing_through = 1
+	multishot_shooting_angle = 30.0
+	shooting_angle = 0.0
+	player_damage_additional = 0

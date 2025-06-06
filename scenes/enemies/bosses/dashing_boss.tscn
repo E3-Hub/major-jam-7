@@ -35,6 +35,7 @@ height = 96.0
 [node name="DashingBoss" instance=ExtResource("1_iqv2l")]
 dash_range = 800.0
 exp_value = 100
+is_boss = true
 
 [node name="CollisionShape2D" parent="." index="0"]
 rotation = 1.5708

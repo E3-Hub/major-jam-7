@@ -3,6 +3,7 @@ class_name BaseEnemy
 
 @export var speed: float = 100.0
 @export var exp_value: int = 10
+@export var is_boss: bool = false
 
 @onready var health_system: HealthSystem = $HealthSystem
 @onready var sprite: Sprite2D = $Sprite2D

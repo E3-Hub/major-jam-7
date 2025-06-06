@@ -10,11 +10,13 @@ class_name PlayerBullet
 var direction: Vector2
 var velocity: Vector2
 var bullet_color: int
+var piercing_through: int
 
 func _ready():
 	collision_layer = 4 # Player bullets layer
 	collision_mask = 2 # Enemy layer
 
+	piercing_through = GameModifiers.player_piercing_through
 	damage = int(damage * GameModifiers.player_damage_modifier)
 	speed *= GameModifiers.bullet_speed_modifier
 	if GameModifiers.bullet_chaos_mode:
@@ -48,7 +50,10 @@ func _on_body_entered(body):
 		if bullet_color == body.enemy_color:
 			final_damage = int(damage * GameModifiers.match_color_damage_modifier)
 		body.take_damage(final_damage)
-	queue_free()
+
+		piercing_through -= 1
+		if piercing_through <= 0:
+			queue_free()
 
 func _on_lifetime_expired():
 	queue_free()

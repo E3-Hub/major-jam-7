@@ -7,7 +7,7 @@ signal experience_gained(current_exp: int, exp_to_next_level: int)
 var current_level: int = 1
 var current_experience: int = 0
 var gain_experience: int = 0
-var experience_to_next_level: int = 100
+var experience_to_next_level: int = 200
 
 func _ready():
 	experience_gained.emit(current_experience, experience_to_next_level)
