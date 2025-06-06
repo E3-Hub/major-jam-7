@@ -23,6 +23,15 @@ offset_right = 150.0
 offset_bottom = 27.0
 theme = SubResource("Theme_fypb7")
 
+[node name="HealthValue" type="Label" parent="HealthBar"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 2.0
+offset_right = 216.0
+offset_bottom = 25.0
+text = "100/100"
+horizontal_alignment = 2
+
 [node name="ExpBar" type="ProgressBar" parent="."]
 layout_mode = 0
 offset_top = 33.0

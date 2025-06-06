@@ -38,12 +38,14 @@ func apply_card_effect(effect_name: String, value: int):
 
 		"increase_max_health":
 			player.health_system.max_health += value
+			player.health_system.health_changed.emit(player.health_system.current_health, player.health_system.max_health)
 		"increase_max_health_percent":
-			GameModifiers.player_health_modifier += value / 100.0
+			player.health_system.max_health = int(player.health_system.max_health * (1 + (value / 100.0)))
+			player.health_system.health_changed.emit(player.health_system.current_health, player.health_system.max_health)
 
 
 		"increase_EXP_gain":
-			player.experience_system.gain_experience += value
+			player.experience_system.additional_gain_experience += value
 		"increase_EXP_gain_percent":
 			GameModifiers.experience_modifier += value / 100.0
 
@@ -68,7 +70,7 @@ func apply_card_effect(effect_name: String, value: int):
 
 
 		"decrease_damage":
-			player.bullet.damage -= value
+			GameModifiers.player_damage_additional -= value
 		"decrease_damage_percent":
 			GameModifiers.player_damage_modifier -= value / 100.0
 
@@ -87,12 +89,18 @@ func apply_card_effect(effect_name: String, value: int):
 
 		"decrease_max_health":
 			player.health_system.max_health -= value
+			if player.health_system.current_health > player.health_system.max_health:
+				player.health_system.current_health = player.health_system.max_health
+			player.health_system.health_changed.emit(player.health_system.current_health, player.health_system.max_health)
 		"decrease_max_health_percent":
-			GameModifiers.player_health_modifier -= value / 100.0
+			player.health_system.max_health = int(player.health_system.max_health * (1 - (value / 100.0)))
+			if player.health_system.current_health > player.health_system.max_health:
+				player.health_system.current_health = player.health_system.max_health
+			player.health_system.health_changed.emit(player.health_system.current_health, player.health_system.max_health)
 
 
 		"decrease_EXP_gain":
-			player.experience_system.gain_experience -= value
+			player.experience_system.additional_gain_experience -= value
 		"decrease_EXP_gain_percent":
 			GameModifiers.experience_modifier -= value / 100.0
 

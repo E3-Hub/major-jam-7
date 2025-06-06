@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://s0kxug1tajl2"]
 
-[ext_resource type="Script" uid="uid://thhmcdhiy441" path="res://scripts/player/player_bullet.gd" id="1_fgkn0"]
-[ext_resource type="Shader" uid="uid://ct66c7vhhyphg" path="res://assets/shaders/color_change.gdshader" id="2_fgkn0"]
+[ext_resource type="Script" uid="uid://1v27ieg4fjeh" path="res://scripts/player/player_bullet.gd" id="1_fgkn0"]
+[ext_resource type="Shader" uid="uid://bogtpgib6mkbq" path="res://assets/shaders/color_change.gdshader" id="2_fgkn0"]
 [ext_resource type="Texture2D" uid="uid://kssbx2cikxd7" path="res://assets/player/player_bullet.png" id="3_gswxk"]
-[ext_resource type="Script" uid="uid://br3dprin8ubcf" path="res://scripts/effects/ghost_trail_effect.gd" id="4_gswxk"]
+[ext_resource type="Script" uid="uid://b2itawfhpucn2" path="res://scripts/effects/ghost_trail_effect.gd" id="4_gswxk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tyir5"]
 resource_local_to_scene = true

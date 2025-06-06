@@ -1,17 +1,5 @@
 extends CharacterBody2D
 class_name Player
-
-var dash_speed_speed_ratio: float = 5.0
-@export var speed: float = 300.0
-@export var dash_speed: float = speed * dash_speed_speed_ratio
-@export var dash_duration: float = 0.1
-@export var dash_cooldown: float = 1.0
-@export var dash_direction = Vector2.ZERO
-@export var bullet_scene: PackedScene
-@export var base_shoot_cooldown: float = 0.2
-@export var invincibility_on_damage_duration: float = 1.0 # Duration of invincibility after taking damage
-@export var blink_frequency: float = 0.1 # Time between sprite visibility toggles for blinking
-
 @onready var health_system: HealthSystem = $HealthSystem
 @onready var experience_system: ExperienceSystem = $ExperienceSystem
 @onready var shoot_timer: Timer = $ShootTimer
@@ -19,6 +7,17 @@ var dash_speed_speed_ratio: float = 5.0
 @onready var knockback_system: KnockbackSystem = $KnockbackSystem
 @onready var ghost_trail_effect: GhostTrailEffect = $GhostTrailEffect
 
+@export var bullet_scene: PackedScene
+
+var dash_speed_speed_ratio: float = 5.0
+@export var speed: float = 300.0
+@export var dash_speed: float = speed * dash_speed_speed_ratio
+@export var dash_duration: float = 0.1
+@export var dash_cooldown: float = 1.0
+@export var dash_direction = Vector2.ZERO
+@export var base_shoot_cooldown: float = 0.2
+@export var invincibility_on_damage_duration: float = 1.0 # Duration of invincibility after taking damage
+@export var blink_frequency: float = 0.1 # Time between sprite visibility toggles for blinking
 var _dash_timer: float = 0.0
 var _dash_cooldown_timer: float = 0.0
 var _damage_invincibility_timer: float = 0.0 # Timer for invincibility after taking damage
@@ -26,7 +25,7 @@ var _blink_toggle_timer: float = 0.0 # Timer to manage blink toggling
 
 var current_color: int = EnemyColorType.RED
 var can_shoot: bool = true
-@onready var looting: int = 1
+var looting: int = 1
 
 signal player_died
 
@@ -199,3 +198,23 @@ func handle_invincibility(delta: float):
 		if sprite.visible == false: # Only set if it was left in a hidden state
 			sprite.visible = true
 		_blink_toggle_timer = 0 # Reset blink timer
+
+func reset_all_player_states():
+	dash_speed_speed_ratio = 5.0
+	speed = 300.0
+	dash_speed = speed * dash_speed_speed_ratio
+	dash_duration = 0.1
+	dash_cooldown = 1.0
+	dash_direction = Vector2.ZERO
+	base_shoot_cooldown = 0.2
+	invincibility_on_damage_duration = 1.0 # Duration of invincibility after taking damage
+	blink_frequency = 0.1 # Time between sprite visibility toggles for blinking
+	_dash_timer = 0.0
+	_dash_cooldown_timer = 0.0
+	_damage_invincibility_timer = 0.0 # Timer for invincibility after taking damage
+	_blink_toggle_timer = 0.0 # Timer to manage blink toggling
+	current_color = EnemyColorType.RED
+	can_shoot = true
+	looting = 1
+	health_system.max_health = 100
+	experience_system.additional_gain_experience = 0
