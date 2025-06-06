@@ -26,6 +26,10 @@ var experience_modifier: float = 1.0
 
 # Health modifiers
 var enemy_health_modifier: float = 1.0
+var player_health_modifier: float = 1.0
+
+# looting modifiers
+var looting_modifier: float = 1.0
 
 # Special modes
 var bullet_chaos_mode: bool = false
@@ -51,6 +55,8 @@ func reset_all_modifiers():
 	enemy_spawn_distance_modifier = 1.0
 	experience_modifier = 1.0
 	enemy_health_modifier = 1.0
+	player_health_modifier =1.0
+	looting_modifier = 1.0
 	bullet_chaos_mode = false
 	patch_power_modifier = 1.0
 	enemy_size_modifier = 1.0

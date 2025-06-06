@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bfmytxo3jyj5e"]
 
-[ext_resource type="Script" uid="uid://bbqw1ifxhem0h" path="res://scripts/ui/ui_manager.gd" id="1_qjbkm"]
+[ext_resource type="Script" uid="uid://dorw2q5m43s1k" path="res://scripts/ui/ui_manager.gd" id="1_qjbkm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjbkm"]
 bg_color = Color(0.808406, 0, 0.124901, 1)
@@ -38,8 +38,8 @@ vertical_alignment = 1
 
 [node name="TimeLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 574.0
-offset_right = 614.0
+offset_left = 776.0
+offset_right = 816.0
 offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -99,3 +99,44 @@ process_mode = 3
 layout_mode = 2
 mouse_filter = 1
 text = "Continue"
+
+[node name="CardContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 200.0
+offset_right = 1248.0
+offset_bottom = 314.0
+alignment = 1
+
+[node name="EffectPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 80.0
+offset_right = 984.0
+offset_bottom = 124.0
+
+[node name="EffectTitle" type="Label" parent="EffectPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 376.0
+offset_bottom = 41.0
+text = "Effect Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="EffectStatus" type="RichTextLabel" parent="EffectPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_right = -2.0
+offset_bottom = 114.0
+theme_override_font_sizes/normal_font_size = 12
+text = "effect status"
+fit_content = true
+horizontal_alignment = 2

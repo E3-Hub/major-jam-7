@@ -1,8 +1,9 @@
 extends CharacterBody2D
 class_name Player
 
+var dash_speed_speed_ratio: float = 5.0
 @export var speed: float = 300.0
-@export var dash_speed: float = 1500.0
+@export var dash_speed: float = speed*dash_speed_speed_ratio
 @export var dash_duration: float = 0.1
 @export var dash_cooldown: float = 1.0
 @export var dash_direction = Vector2.ZERO
@@ -17,6 +18,7 @@ class_name Player
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var knockback_system: KnockbackSystem = $KnockbackSystem
 @onready var ghost_trail_effect: GhostTrailEffect = $GhostTrailEffect
+var bullet: PlayerBullet
 
 var _dash_timer: float = 0.0
 var _dash_cooldown_timer: float = 0.0
@@ -25,13 +27,15 @@ var _blink_toggle_timer: float = 0.0 # Timer to manage blink toggling
 
 var current_color: int = EnemyColorType.RED
 var can_shoot: bool = true
+@onready var looting: int = 1
 
 signal player_died
 
 func _ready():
 	# Connect signals
+	health_system.max_health = int(health_system.max_health * GameModifiers.player_health_modifier)
 	health_system.died.connect(_on_died)
-	experience_system.level_up.connect(_on_level_up)
+	# experience_system.level_up.connect(_on_level_up)
 	
 	# Setup shoot timer
 	shoot_timer.wait_time = base_shoot_cooldown
@@ -109,7 +113,7 @@ func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	
-	var bullet: PlayerBullet = bullet_scene.instantiate()
+	bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	
 	bullet.setup(global_position, direction, current_color)

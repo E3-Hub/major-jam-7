@@ -15,11 +15,20 @@ class_name UIManager
 @onready var patch_changes: RichTextLabel = $PatchPanel/VBoxContainer/PatchChanges
 @onready var patch_close_button: Button = $PatchPanel/VBoxContainer/CloseButton
 
+# Card UI
+@onready var card_container: HBoxContainer = $CardContainer
+
+# Effect UI
+@onready var effect_panel: Panel = $EffectPanel
+@onready var effect_title: Label = $EffectPanel/EffectTitle
+@onready var effect_status: RichTextLabel = $EffectPanel/EffectStatus
+
 func _ready():
 	restart_button.pressed.connect(_on_restart_pressed)
 	patch_close_button.pressed.connect(_on_patch_close_pressed)
 	game_over_panel.visible = false
 	patch_panel.visible = false
+	effect_panel.visible = false
 
 func update_health(current_health: int, max_health: int):
 	if health_bar:
@@ -67,3 +76,38 @@ func _on_patch_close_pressed():
 func _on_restart_pressed():
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+
+func show_card_choices(cards: Array[Card], callback: Callable):
+	card_container.process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().paused = true
+	for child in card_container.get_children():
+		child.queue_free()
+
+	for card in cards:
+		var btn: Button = Button.new()
+		btn.text = "%s%s[%.2f]" % [card.title, card.rarity_type, card.rarity]
+
+		btn.connect("pressed", func():
+			card_container.hide()
+			get_tree().paused = false
+			callback.callv([card])
+		)
+
+		card_container.add_child(btn)
+
+	card_container.show()
+
+func show_effect_panel(title: String, status: String):
+	effect_title.text = title
+	effect_status.text = status # Use description for the actual status
+	effect_panel.visible = true
+	effect_status.visible = false
+
+	await get_tree().create_timer(0.5).timeout
+	effect_status.visible = true
+	await get_tree().create_timer(4.5).timeout
+	effect_status.visible = false
+	
+	await get_tree().create_timer(1).timeout
+	effect_panel.visible = false
+	
