@@ -1,7 +1,9 @@
 extends Control
 class_name UIManager
 
+var game_manager: GameManager
 @onready var health_bar: ProgressBar = $HealthBar
+@onready var health_value: Label = $HealthBar/HealthValue
 @onready var exp_bar: ProgressBar = $ExpBar
 @onready var level_label: Label = $LevelLabel
 @onready var time_label: Label = $TimeLabel
@@ -24,6 +26,8 @@ class_name UIManager
 @onready var effect_status: RichTextLabel = $EffectPanel/EffectStatus
 
 func _ready():
+	game_manager = get_tree().get_first_node_in_group("game_manager")
+
 	restart_button.pressed.connect(_on_restart_pressed)
 	patch_close_button.pressed.connect(_on_patch_close_pressed)
 	game_over_panel.visible = false
@@ -34,6 +38,8 @@ func update_health(current_health: int, max_health: int):
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = current_health
+	if health_value:
+		health_value.text = "%s/%s" % [current_health, max_health]
 
 func update_experience(current_exp: int, exp_to_next: int):
 	if exp_bar:
@@ -74,8 +80,7 @@ func _on_patch_close_pressed():
 	get_tree().paused = false
 
 func _on_restart_pressed():
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	game_manager.restart_game()
 
 func show_card_choices(cards: Array[Card], callback: Callable):
 	card_container.process_mode = Node.PROCESS_MODE_ALWAYS

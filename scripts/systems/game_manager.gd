@@ -42,5 +42,6 @@ func _on_player_level_up(new_level: int):
 
 func restart_game():
 	GameModifiers.reset_all_modifiers()
+	player.reset_all_player_states()
 	get_tree().paused = false
 	get_tree().reload_current_scene()

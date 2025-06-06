@@ -6,14 +6,14 @@ signal experience_gained(current_exp: int, exp_to_next_level: int)
 
 var current_level: int = 1
 var current_experience: int = 0
-var gain_experience: int = 0
+var additional_gain_experience: int = 0
 var experience_to_next_level: int = 200
 
 func _ready():
 	experience_gained.emit(current_experience, experience_to_next_level)
 
 func add_experience(amount: int):
-	var gross_exp_value = amount + gain_experience
+	var gross_exp_value = amount + additional_gain_experience
 	gross_exp_value = 1 if gross_exp_value < 0 else gross_exp_value
 	current_experience += int(gross_exp_value * GameModifiers.experience_modifier)
 	experience_gained.emit(current_experience, experience_to_next_level)

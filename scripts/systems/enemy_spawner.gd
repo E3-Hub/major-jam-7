@@ -48,7 +48,10 @@ func spawn_enemy():
 		return
 	
 	# Choose random enemy type
-	var enemy_scene = enemy_scenes[randi() % GameModifiers.enemy_type_level]
+	var current_enemy_type_level = GameModifiers.enemy_type_level if GameModifiers.enemy_type_level <= enemy_scenes.size()-1 else enemy_scenes.size()-1
+	var enemy_scene = enemy_scenes[randi() % current_enemy_type_level]
+
+
 	var enemy: BaseEnemy = enemy_scene.instantiate()
 	
 	# Check if it's a CannonEnemy for special spawn handling
