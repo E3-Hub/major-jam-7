@@ -68,8 +68,8 @@ static var card_values_range = {
 		"percent_range": [5, 100],
 	},
 	"fire_rate_rpm": {
-		"amount_range": [300, 500],
-		"percent_range": [10, 50],
+		"amount_range": [5, 60],
+		"percent_range": [1, 15],
 	},
 }
 
@@ -118,10 +118,10 @@ static var boss_cards: Array[Card] = [
 		Card.new(
 			1,
 			"",
-			" damage +20% \n health +5",
+			" damage +10% \n health +5",
 			"A surge of power flows through your arms.",
 			{
-				"increase_damage_percent": 20,
+				"increase_damage_percent": 10,
 				"increase_health": 5,
 			}
 		),

@@ -35,8 +35,7 @@ func _ready():
 	effect_panel.visible = false
 
 func _input(event):
-	if event.is_action_pressed("enter_close_patch"):
-		print("enter_close_patch")
+	if (event.is_action_pressed("enter_close_patch") or event.is_action_pressed("close_patch")) and patch_panel.visible == true:
 		_on_patch_close_pressed()
 
 func update_health(current_health: int, max_health: int):

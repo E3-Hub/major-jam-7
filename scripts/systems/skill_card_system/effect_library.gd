@@ -51,10 +51,10 @@ func apply_card_effect(effect_name: String, value: int):
 
 
 		"increase_fire_rate_rpm":
-			var round_per_sec = (1 / player.base_shoot_cooldown + 60 / float(value))
+			var round_per_sec = ((1.0 / player.base_shoot_cooldown) + (float(value) / 60.0))
 			# round_per_sec = 0.4 -> sec_per_round = 2.5 s
 			# update base_shoot_cooldown
-			player.base_shoot_cooldown = (1 / round_per_sec)
+			player.base_shoot_cooldown = (1.0 / round_per_sec)
 			player.shoot_timer.wait_time = player.base_shoot_cooldown / GameModifiers.player_fire_rate_modifier
 		"increase_fire_rate_rpm_percent":
 			GameModifiers.player_fire_rate_modifier += value / 100.0
@@ -106,12 +106,12 @@ func apply_card_effect(effect_name: String, value: int):
 
 
 		"decrease_fire_rate_rpm":
-			var round_per_sec = (1 / player.base_shoot_cooldown - 60 / float(value))
+			var round_per_sec = ((1.0 / player.base_shoot_cooldown) - (float(value) / 60.0))
 			# round_per_sec = 0.4 -> sec_per_round = 2.5 s
 			var lower_limit_round_per_sec = 0.4
 			round_per_sec = lower_limit_round_per_sec if round_per_sec < lower_limit_round_per_sec else round_per_sec
 			# update base_shoot_cooldown
-			player.base_shoot_cooldown = (1 / round_per_sec)
+			player.base_shoot_cooldown = (1.0 / round_per_sec)
 			player.shoot_timer.wait_time = player.base_shoot_cooldown / GameModifiers.player_fire_rate_modifier
 		"decrease_fire_rate_rpm_percent":
 			GameModifiers.player_fire_rate_modifier -= value / 100.0
