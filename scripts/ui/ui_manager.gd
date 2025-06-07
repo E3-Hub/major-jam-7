@@ -34,6 +34,11 @@ func _ready():
 	patch_panel.visible = false
 	effect_panel.visible = false
 
+func _input(event):
+	if event.is_action_pressed("enter_close_patch"):
+		print("enter_close_patch")
+		_on_patch_close_pressed()
+
 func update_health(current_health: int, max_health: int):
 	if health_bar:
 		health_bar.max_value = max_health
@@ -67,6 +72,7 @@ func show_game_over(final_time: float):
 
 func show_patch_notes(title: String, changes_text: String):
 	# Pause the game for dramatic effect
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
 	
 	patch_title.text = title
